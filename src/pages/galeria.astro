@@ -1,0 +1,22 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import EmptySection from '@/components/EmptySection.astro';
+---
+
+<BaseLayout
+  title="Galeria"
+  description="Galeria realizacji Czyste Sprawy — zdjęcia przed i po sprzątaniu w Poznaniu. Sekcja w przygotowaniu."
+  path="/galeria"
+  noindex
+>
+  <EmptySection
+    title="Galeria"
+    lead="Ta sekcja jest w przygotowaniu. Znajdą się tu prawdziwe zdjęcia naszych realizacji — bez zdjęć stockowych."
+    soon={[
+      'Zdjęcia przed / po ze sprzątania mieszkań i domów',
+      'Sprzątanie po remoncie — pył budowlany, farba, klej',
+      'Mycie okien — przed i po',
+      'Realizacje biurowe',
+    ]}
+  />
+</BaseLayout>

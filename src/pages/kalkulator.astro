@@ -1,0 +1,59 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Calculator from '@/components/Calculator.astro';
+import Cta from '@/components/Cta.astro';
+import { addons, addonCategories, pricingDisclaimer, unitLabel } from '@/data/addons';
+---
+
+<BaseLayout
+  title="Kalkulator ceny sprzątania — Poznań"
+  description="Orientacyjny kalkulator ceny sprzątania mieszkań, domów i po remoncie w Poznaniu. Mycie okien i usługi dodatkowe. Dokładną cenę potwierdzamy po bezpłatnej wycenie."
+  path="/kalkulator"
+>
+  <section class="mx-auto max-w-6xl px-5 pb-10 pt-16">
+    <SectionHeading
+      eyebrow="Kalkulator"
+      title="Sprawdź orientacyjny koszt"
+      lead="Nie mamy sztywnego cennika, bo dwa lokale o tym samym metrażu potrafią wymagać różnej ilości pracy. Ten kalkulator daje przybliżenie na podstawie stawek rynkowych — dokładną cenę ustalamy przy bezpłatnej wycenie."
+    />
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 pb-24">
+    <Calculator />
+  </section>
+
+  <!-- Pełny cennik dodatków -->
+  <section class="bg-ivory-warm py-20">
+    <div class="mx-auto max-w-4xl px-5">
+      <SectionHeading eyebrow="Cennik dodatków" title="Pełna lista usług dodatkowych" />
+      <p class="mt-4 text-sm text-ink-mute">{pricingDisclaimer}</p>
+
+      <div class="mt-10 space-y-10">
+        {
+          addonCategories.map((cat) => (
+            <div>
+              <h3 class="font-display text-lg text-forest">{cat.label}</h3>
+              <ul class="mt-4 divide-y divide-ivory-line rounded border border-ivory-line bg-white">
+                {addons
+                  .filter((a) => a.category === cat.id)
+                  .map((a) => (
+                    <li class="flex items-center justify-between gap-4 px-5 py-3 text-sm">
+                      <span>{a.label}</span>
+                      <span class="shrink-0 font-semibold text-forest">
+                        {a.price !== null
+                          ? `${a.price} ${unitLabel[a.unit]}`
+                          : 'wycena indywidualna'}
+                      </span>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <div class="py-20"><Cta /></div>
+</BaseLayout>

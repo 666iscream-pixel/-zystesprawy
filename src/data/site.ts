@@ -39,12 +39,25 @@ export const site = {
 
   hours: 'Pn–Sb 8:00–20:00', // TODO: potwierdzić
 
-  // --- Dowody społeczne (stan na sierpień 2026, profil Fixly) -------------
+  /**
+   * Dowody społeczne (stan na sierpień 2026, profil Fixly).
+   * ⚠️ Na życzenie klientki lata doświadczenia i ocena Fixly NIE są już
+   * eksponowane w interfejsie (mało opinii jak na widoczny banner) —
+   * zostają jednak w danych i w schema.org (aggregateRating), bo to
+   * niewidoczna korzyść SEO bez wizualnego "krzyczenia" liczbami.
+   */
   proof: {
     yearsExperience: 4,
     rating: 5.0,
     reviewsCount: 2,
     verifiedInGus: true,
+  },
+
+  /** Ubezpieczenie OC — podane przez właścicielkę, silny sygnał zaufania. */
+  insurance: {
+    type: 'OC',
+    amount: '1 000 000 zł',
+    label: 'Ubezpieczenie OC do 1 000 000 zł',
   },
 
   // --- Obecność w sieci ---------------------------------------------------

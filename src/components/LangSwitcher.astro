@@ -1,0 +1,80 @@
+---
+/**
+ * Zaślepka przełącznika języka — PL / UK / RU.
+ *
+ * Klientka poprosiła o wersje ukraińską i rosyjską (bez angielskiej).
+ * Tłumaczeń jeszcze nie ma — przełącznik pokazuje dostępność i prowadzi
+ * do krótkiego komunikatu "wkrótce", żeby nie tworzyć martwych linków.
+ */
+interface Props { class?: string }
+const { class: klass = '' } = Astro.props;
+
+const langs = [
+  { code: 'pl', label: 'PL', active: true },
+  { code: 'uk', label: 'UA', active: false },
+  { code: 'ru', label: 'RU', active: false },
+];
+---
+
+<div class={`relative ${klass}`} data-lang-switcher>
+  <button
+    type="button"
+    id="lang-btn"
+    class="flex items-center gap-1.5 rounded border border-ivory-line px-3 py-2 text-sm font-semibold text-forest transition-colors hover:border-forest"
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-controls="lang-menu"
+    aria-label="Zmień język"
+  >
+    <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3c2.3 2.5 3.6 5.7 3.6 9S14.3 17.5 12 21c-2.3-2.5-3.6-5.7-3.6-9S9.7 5.5 12 3Z" />
+    </svg>
+    PL
+    <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
+
+  <ul
+    id="lang-menu"
+    hidden
+    class="absolute right-0 z-50 mt-2 w-52 overflow-hidden rounded border border-ivory-line bg-white py-1 shadow-[0_10px_30px_-10px_rgba(23,33,26,0.3)]"
+  >
+    {
+      langs.map((l) => (
+        <li>
+          <span class="flex items-baseline justify-between gap-3 px-4 py-2.5 text-sm text-ink">
+            <span class:list={[l.active && 'font-semibold text-forest']}>{l.label}</span>
+            {!l.active && <span class="text-[0.68rem] text-ink-mute">wkrótce</span>}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-lang-switcher]');
+  const btn = document.getElementById('lang-btn');
+  const menu = document.getElementById('lang-menu');
+
+  function close() {
+    btn?.setAttribute('aria-expanded', 'false');
+    if (menu) menu.hidden = true;
+  }
+
+  btn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    if (menu) menu.hidden = open;
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!root?.contains(e.target as Node)) close();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') close();
+  });
+</script>

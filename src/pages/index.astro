@@ -1,11 +1,11 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
-import Reviews from '@/components/Reviews.astro';
 import Faq from '@/components/Faq.astro';
 import Cta from '@/components/Cta.astro';
 import Check from '@/components/Check.astro';
-import { services, promises, alwaysIncluded } from '@/data/services';
+import Icon from '@/components/Icon.astro';
+import { services, usp, alwaysIncluded } from '@/data/services';
 import { faq } from '@/data/faq';
 import { site, waLink, waDefaultMessage } from '@/data/site';
 
@@ -31,205 +31,154 @@ const steps = [
 
 <BaseLayout
   title="Sprzątanie mieszkań, domów i biur — Poznań | Czyste Sprawy"
-  description="Czyste Sprawy — sprzątanie mieszkań, domów i biur oraz mycie okien w Poznaniu i okolicach. 4 lata doświadczenia, ocena 5.0 na Fixly, bezpłatna wycena."
+  description="Czyste Sprawy — sprzątanie mieszkań, domów i biur, po remoncie, po wynajmie oraz mycie okien w Poznaniu i okolicach. Ubezpieczenie OC, bezpłatna wycena."
   path="/"
 >
-  <!-- ══ HERO ══ -->
+  <!-- ══ HERO ══ pojedyncza kolumna — bez dużego bloku statystyk ══ -->
   <section class="border-b border-ivory-line">
-    <div class="mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:pb-28 lg:pt-24">
-      <div>
-        <p class="eyebrow hairline">{site.tagline}</p>
+    <div class="mx-auto max-w-3xl px-5 pb-16 pt-16 text-center lg:pb-20 lg:pt-24">
+      <p class="eyebrow mx-auto">{site.tagline}</p>
 
-        <h1 class="display-xl mt-6 font-display text-forest">
-          Czysto tam,<br />gdzie się mieszka<br />
-          <span class="italic text-forest-soft">i pracuje</span>
-        </h1>
+      <h1 class="display-xl mt-6 font-display text-forest">
+        Czysto tam, gdzie się<br />
+        <span class="italic text-forest-soft">mieszka i pracuje</span>
+      </h1>
 
-        <p class="mt-8 max-w-lg text-lg leading-relaxed text-ink-soft">
-          Sprzątamy mieszkania, domy i biura w Poznaniu i okolicach. Cenę podajemy
-          przed rozpoczęciem pracy — po bezpłatnej wycenie, bez niespodzianek
-          na miejscu.
-        </p>
+      <p class="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-ink-soft">
+        Sprzątamy mieszkania, domy i biura w Poznaniu i okolicach. Cenę podajemy
+        przed rozpoczęciem pracy — po bezpłatnej wycenie, bez niespodzianek na miejscu.
+      </p>
 
-        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-          <a href="/wycena" class="btn btn-primary">Bezpłatna wycena</a>
-          <a
-            href={waLink(waDefaultMessage)}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn-ghost">Napisz na WhatsApp</a
-          >
-        </div>
-
-        <ul class="mt-10 flex flex-wrap gap-x-7 gap-y-2.5 text-sm text-ink-soft">
-          {
-            alwaysIncluded.map((i) => (
-              <li class="flex items-center gap-2">
-                <Check class="!h-4 !w-4" />
-                {i}
-              </li>
-            ))
-          }
-        </ul>
+      <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+        <a href="/wycena" class="btn btn-primary">Bezpłatna wycena</a>
+        <a href="/kalkulator" class="btn btn-ghost">Kalkulator orientacyjny</a>
       </div>
 
-      <!-- Dowody zamiast zdjęcia stockowego -->
-      <aside class="rounded border border-ivory-line bg-white p-8 sm:p-10">
-        <p class="eyebrow">Czyste Sprawy w liczbach</p>
-        <dl class="mt-7 space-y-7">
-          <div class="flex items-baseline justify-between gap-5 border-b border-ivory-line pb-5">
-            <dt class="text-ink-soft">Ocena klientów</dt>
-            <dd class="text-right">
-              <span class="font-display text-3xl text-forest">
-                {site.proof.rating.toFixed(1)}
-              </span>
-              <span class="ml-1 text-sand">★</span>
-              <span class="block text-xs text-ink-mute">
-                {site.proof.reviewsCount} opinie na Fixly
-              </span>
-            </dd>
-          </div>
-          <div class="flex items-baseline justify-between gap-5 border-b border-ivory-line pb-5">
-            <dt class="text-ink-soft">Na rynku</dt>
-            <dd class="text-right">
-              <span class="font-display text-3xl text-forest">
-                {site.proof.yearsExperience}
-              </span>
-              <span class="block text-xs text-ink-mute">lata doświadczenia</span>
-            </dd>
-          </div>
-          <div class="flex items-baseline justify-between gap-5">
-            <dt class="text-ink-soft">Dane firmy</dt>
-            <dd class="text-right">
-              <span class="font-display text-xl text-forest">Zweryfikowane</span>
-              <span class="block text-xs text-ink-mute">w rejestrze GUS · NIP {site.nip}</span>
-            </dd>
-          </div>
-        </dl>
-      </aside>
-    </div>
-  </section>
-
-  <!-- ══ USŁUGI ══ -->
-  <section class="mx-auto max-w-6xl px-5 py-24">
-    <div class="flex flex-wrap items-end justify-between gap-6">
-      <SectionHeading
-        eyebrow="Usługi"
-        title="Trzy rzeczy, które robimy dobrze"
-        lead="Bez rozpraszania się na dziesięć kierunków. Każda usługa ma opisany zakres, żebyś wiedział, za co płacisz."
-      />
-      <a href="/uslugi" class="text-forest underline underline-offset-4">Wszystkie zakresy →</a>
-    </div>
-
-    <ul class="mt-14 grid gap-8 lg:grid-cols-3">
-      {
-        services.map((s, i) => (
-          <li>
-            <a href={`/uslugi/${s.slug}`} class="group block">
-              <span class="font-display text-sm text-sand">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <h3 class="display-md mt-3 font-display text-forest transition-colors group-hover:text-forest-soft">
-                {s.name}
-              </h3>
-              <p class="mt-4 leading-relaxed text-ink-soft">{s.lead}</p>
-              <span class="mt-5 inline-block border-b border-forest/30 pb-0.5 text-sm text-forest transition-colors group-hover:border-forest">
-                Zobacz zakres
-              </span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
-
-  <!-- ══ DLACZEGO MY ══ -->
-  <section class="bg-ivory-warm py-24">
-    <div class="mx-auto max-w-6xl px-5">
-      <div class="grid gap-14 lg:grid-cols-[0.85fr_1.15fr]">
-        <div class="lg:sticky lg:top-32 lg:self-start">
-          <SectionHeading eyebrow="Dlaczego my" title="Konkret zamiast obietnic" />
-        </div>
-        <ol>
-          {
-            promises.map((p, i) => (
-              <li class="rule py-7 first:border-t-0 first:pt-0">
-                <div class="flex gap-6">
-                  <span class="font-display text-lg text-sand">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <div>
-                    <h3 class="font-display text-xl text-forest">{p.title}</h3>
-                    <p class="mt-2 leading-relaxed text-ink-soft">{p.body}</p>
-                  </div>
-                </div>
-              </li>
-            ))
-          }
-        </ol>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ OPINIE ══ -->
-  <section class="mx-auto max-w-6xl px-5 py-24">
-    <SectionHeading
-      eyebrow="Opinie"
-      title="Co mówią klienci"
-      lead="Krótko, ale prawdziwie. Dwie opinie, obie na pięć gwiazdek."
-    />
-    <div class="mt-12"><Reviews /></div>
-  </section>
-
-  <!-- ══ JAK PRACUJEMY ══ -->
-  <section class="bg-forest py-24 text-ivory">
-    <div class="mx-auto max-w-6xl px-5">
-      <SectionHeading eyebrow="Jak pracujemy" title="Cztery kroki, zero niejasności" invert />
-      <ol class="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+      <ul class="mx-auto mt-10 flex flex-wrap justify-center gap-x-7 gap-y-2.5 text-sm text-ink-soft">
         {
-          steps.map((s, i) => (
-            <li class="border-t border-ivory/20 pt-6">
-              <span class="font-display text-sm text-sand">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <h3 class="mt-3 font-display text-xl">{s.title}</h3>
-              <p class="mt-2.5 leading-relaxed text-ivory/70">{s.body}</p>
+          alwaysIncluded.map((i) => (
+            <li class="flex items-center gap-2">
+              <Check class="!h-4 !w-4" />
+              {i}
             </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
-
-  <!-- ══ OBSZAR ══ -->
-  <section class="mx-auto max-w-6xl px-5 py-24">
-    <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-      <SectionHeading
-        eyebrow="Obszar działania"
-        title="Poznań i okolice"
-        lead="Dojeżdżamy nie tylko po mieście. Przy dalszych lokalizacjach potwierdzamy dojazd przy wycenie."
-      />
-      <ul class="grid grid-cols-2 gap-x-8 sm:grid-cols-3">
-        {
-          site.areaServed.map((a) => (
-            <li class="rule py-3 text-ink-soft">{a}</li>
           ))
         }
       </ul>
     </div>
   </section>
 
-  <!-- ══ FAQ ══ -->
-  <section class="bg-ivory-warm py-24">
-    <div class="mx-auto max-w-3xl px-5">
-      <SectionHeading eyebrow="FAQ" title="Częste pytania" align="center" />
-      <div class="mt-12"><Faq items={faq.slice(0, 5)} schema /></div>
-      <p class="mt-8 text-center">
-        <a href="/faq" class="text-forest underline underline-offset-4">
-          Zobacz wszystkie pytania
-        </a>
-      </p>
+  <!-- ══ PASEK ZAUFANIA ══ cienki, ciemna zieleń tylko jako akcent ══ -->
+  <section class="bg-forest text-ivory">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-10 gap-y-3 px-5 py-4 text-sm">
+      <span class="flex items-center gap-2 font-semibold">
+        <Icon name="insurance" class="h-4 w-4 text-sand" />
+        {site.insurance.label}
+      </span>
+      <span class="hidden text-ivory/40 sm:inline">·</span>
+      <span class="font-semibold">{site.areaLabel}</span>
+      <span class="hidden text-ivory/40 sm:inline">·</span>
+      <span class="font-semibold">Dane zweryfikowane w GUS</span>
     </div>
+  </section>
+
+  <!-- ══ USŁUGI ══ karty z obwódką ══ -->
+  <section class="mx-auto max-w-6xl px-5 py-24">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <SectionHeading
+        eyebrow="Usługi"
+        title="Co dla Ciebie zrobimy"
+        lead="Każda usługa ma opisany zakres, żebyś wiedział, za co płacisz."
+      />
+      <a href="/uslugi" class="text-forest underline underline-offset-4">Wszystkie zakresy →</a>
+    </div>
+
+    <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        services.map((s) => (
+          <a
+            href={`/uslugi/${s.slug}`}
+            class="group flex flex-col rounded border border-ivory-line bg-white p-7 transition-colors hover:border-forest"
+          >
+            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-sage text-forest">
+              <Icon name={s.icon} class="h-6 w-6" />
+            </span>
+            <h3 class="mt-5 font-display text-xl text-forest transition-colors group-hover:text-forest-soft">
+              {s.name}
+            </h3>
+            <p class="mt-2.5 flex-1 text-sm leading-relaxed text-ink-soft">{s.lead}</p>
+            <span class="mt-5 inline-flex items-center gap-2 border-b border-forest/30 pb-0.5 text-sm text-forest transition-colors group-hover:border-forest">
+              Zobacz zakres →
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ══ DLACZEGO MY ══ ikony na jasnej szałwii, konkretne hasła ══ -->
+  <section class="bg-ivory-warm py-24">
+    <div class="mx-auto max-w-6xl px-5">
+      <SectionHeading eyebrow="Dlaczego my" title="Osiem powodów, żeby zaufać" align="center" />
+      <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          usp.map((u) => (
+            <div class="card-sage flex flex-col items-center gap-3 p-6 text-center">
+              <Icon name={u.icon} class="h-7 w-7" />
+              <p class="font-semibold leading-snug">{u.title}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ JAK PRACUJEMY ══ jasne tło, żeby nie mnożyć ciemnych bloków ══ -->
+  <section class="mx-auto max-w-6xl px-5 py-24">
+    <SectionHeading eyebrow="Jak pracujemy" title="Cztery kroki, zero niejasności" />
+    <ol class="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        steps.map((s, i) => (
+          <li class="rule pt-6">
+            <span class="font-display text-sm text-sand">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 class="mt-3 font-display text-xl text-forest">{s.title}</h3>
+            <p class="mt-2.5 leading-relaxed text-ink-soft">{s.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- ══ OBSZAR ══ -->
+  <section class="bg-ivory-warm py-24">
+    <div class="mx-auto max-w-6xl px-5">
+      <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <SectionHeading
+          eyebrow="Obszar działania"
+          title="Poznań i okolice"
+          lead="Dojeżdżamy nie tylko po mieście. Przy dalszych lokalizacjach potwierdzamy dojazd przy wycenie."
+        />
+        <ul class="grid grid-cols-2 gap-x-8 sm:grid-cols-3">
+          {
+            site.areaServed.map((a) => (
+              <li class="rule py-3 text-ink-soft">{a}</li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FAQ ══ -->
+  <section class="mx-auto max-w-3xl px-5 py-24">
+    <SectionHeading eyebrow="FAQ" title="Częste pytania" align="center" />
+    <div class="mt-12"><Faq items={faq.slice(0, 5)} schema /></div>
+    <p class="mt-8 text-center">
+      <a href="/faq" class="text-forest underline underline-offset-4">
+        Zobacz wszystkie pytania
+      </a>
+    </p>
   </section>
 
   <div class="py-24"><Cta /></div>

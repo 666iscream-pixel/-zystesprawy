@@ -2,28 +2,34 @@
 import Logo from './Logo.astro';
 import { site } from '@/data/site';
 import { services } from '@/data/services';
+
+/**
+ * Jasny footer zamiast ciemnozielonego bloku — na życzenie klienta:
+ * ciemna zieleń ma być akcentem (logo, przyciski), nie dużą powierzchnią.
+ * Cienkie linie działowe zamiast kolejnych ramek.
+ */
 ---
 
-<footer class="mt-24 bg-forest text-ivory">
-  <div class="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:grid-cols-2 lg:grid-cols-4">
+<footer class="mt-24 border-t border-ivory-line bg-ivory-warm">
+  <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4">
     <div>
-      <Logo invert />
-      <p class="mt-5 max-w-xs text-sm leading-relaxed text-ivory/70">
+      <Logo />
+      <p class="mt-5 max-w-xs text-sm leading-relaxed text-ink-soft">
         Profesjonalne sprzątanie mieszkań, domów i biur oraz mycie okien.
         Indywidualne podejście, własny sprzęt, uczciwa wycena.
       </p>
-      <p class="mt-4 text-sm font-semibold">{site.areaLabel}</p>
+      <p class="mt-4 text-sm font-semibold text-forest">{site.areaLabel}</p>
     </div>
 
     <div>
-      <h2 class="mb-4 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ivory/50">
+      <h2 class="mb-4 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-mute">
         Usługi
       </h2>
       <ul class="space-y-2.5 text-sm">
         {
           services.map((s) => (
             <li>
-              <a href={`/uslugi/${s.slug}`} class="text-ivory/80 transition-colors hover:text-sand">
+              <a href={`/uslugi/${s.slug}`} class="text-ink-soft transition-colors hover:text-forest">
                 {s.name}
               </a>
             </li>
@@ -33,45 +39,41 @@ import { services } from '@/data/services';
     </div>
 
     <div>
-      <h2 class="mb-4 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ivory/50">
+      <h2 class="mb-4 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-mute">
         Firma
       </h2>
       <ul class="space-y-2.5 text-sm">
-        <li><a href="/o-nas" class="text-ivory/80 hover:text-sand">O nas</a></li>
-        <li><a href="/opinie" class="text-ivory/80 hover:text-sand">Opinie</a></li>
-        <li><a href="/wycena" class="text-ivory/80 hover:text-sand">Bezpłatna wycena</a></li>
-        <li><a href="/faq" class="text-ivory/80 hover:text-sand">Częste pytania</a></li>
-        <li><a href="/kontakt" class="text-ivory/80 hover:text-sand">Kontakt</a></li>
+        <li><a href="/o-nas" class="text-ink-soft hover:text-forest">O nas</a></li>
+        <li><a href="/kalkulator" class="text-ink-soft hover:text-forest">Kalkulator</a></li>
+        <li><a href="/dla-firm" class="text-ink-soft hover:text-forest">Dla firm</a></li>
+        <li><a href="/wycena" class="text-ink-soft hover:text-forest">Bezpłatna wycena</a></li>
+        <li><a href="/faq" class="text-ink-soft hover:text-forest">Częste pytania</a></li>
+        <li><a href="/kontakt" class="text-ink-soft hover:text-forest">Kontakt</a></li>
       </ul>
     </div>
 
     <div>
-      <h2 class="mb-4 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ivory/50">
+      <h2 class="mb-4 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-mute">
         Kontakt
       </h2>
-      <ul class="space-y-2.5 text-sm text-ivory/80">
+      <ul class="space-y-2.5 text-sm text-ink-soft">
         <li>
-          <a href={`tel:${site.phone}`} class="font-semibold text-ivory hover:text-sand">
+          <a href={`tel:${site.phone}`} class="font-semibold text-forest hover:text-forest-deep">
             {site.phoneDisplay}
           </a>
         </li>
-        <li><a href={`mailto:${site.email}`} class="hover:text-sand">{site.email}</a></li>
+        <li><a href={`mailto:${site.email}`} class="hover:text-forest">{site.email}</a></li>
         <li class="pt-2">
           {site.address.street}<br />
           {site.address.postalCode} {site.address.city}
         </li>
         <li class="pt-2">{site.hours}</li>
-        <li class="pt-2">
-          <a href={site.fixly} target="_blank" rel="noopener noreferrer" class="hover:text-sand">
-            Profil na Fixly — ★ {site.proof.rating.toFixed(1)}
-          </a>
-        </li>
       </ul>
     </div>
   </div>
 
-  <div class="border-t border-ivory/15">
-    <div class="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-xs text-ivory/50 sm:flex-row sm:items-center sm:justify-between">
+  <div class="border-t border-ivory-line">
+    <div class="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-5 text-xs text-ink-mute sm:flex-row sm:items-center sm:justify-between">
       <p>© {new Date().getFullYear()} {site.legalName} · NIP {site.nip}</p>
       <p>Podane informacje nie stanowią oferty w rozumieniu Kodeksu cywilnego.</p>
     </div>

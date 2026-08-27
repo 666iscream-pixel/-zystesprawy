@@ -2,9 +2,11 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Check from '@/components/Check.astro';
+import Icon from '@/components/Icon.astro';
 import Cta from '@/components/Cta.astro';
-import { services, alwaysIncluded } from '@/data/services';
-import { site, waLink } from '@/data/site';
+import { services, alwaysIncluded, exclusions } from '@/data/services';
+import { waLink } from '@/data/site';
+import { priceMatrix, windowPrice, formatRange } from '@/data/pricing';
 
 export function getStaticPaths() {
   return services.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
@@ -12,6 +14,10 @@ export function getStaticPaths() {
 
 const { service } = Astro.props;
 const others = services.filter((s) => s.slug !== service.slug);
+
+const roomPriced = priceMatrix[service.slug];
+const isOffice = service.slug === 'sprzatanie-biur';
+const isWindows = service.slug === 'mycie-okien';
 ---
 
 <BaseLayout
@@ -31,8 +37,36 @@ const others = services.filter((s) => s.slug !== service.slug);
         <h1 class="display-lg font-display text-forest">{service.name}</h1>
         <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">{service.lead}</p>
 
+        {
+          roomPriced && (
+            <p class="mt-5 font-display text-2xl text-forest">
+              od {roomPriced['1']!.from} zł
+              <span class="ml-2 text-sm font-sans font-normal text-ink-mute">
+                orientacyjnie, za mieszkanie 1-pokojowe
+              </span>
+            </p>
+          )
+        }
+        {
+          isWindows && (
+            <p class="mt-5 font-display text-2xl text-forest">
+              {formatRange(windowPrice)}
+              <span class="ml-2 text-sm font-sans font-normal text-ink-mute">za okno, orientacyjnie</span>
+            </p>
+          )
+        }
+
         <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-          <a href="/wycena" class="btn btn-primary">Bezpłatna wycena</a>
+          <a href={isOffice ? '/dla-firm' : '/wycena'} class="btn btn-primary">
+            {isOffice ? 'Umów bezpłatną wizytę' : 'Bezpłatna wycena'}
+          </a>
+          {
+            !isOffice && (
+              <a href="/kalkulator" class="btn btn-ghost">
+                Sprawdź w kalkulatorze
+              </a>
+            )
+          }
           <a
             href={waLink(
               `Dzień dobry! Piszę ze strony czystesprawy.pl — interesuje mnie: ${service.name}.`
@@ -106,16 +140,41 @@ const others = services.filter((s) => s.slug !== service.slug);
         }
       </ul>
 
+      <div class="mt-8 rounded border border-ivory-line bg-white p-7">
+        <h3 class="font-display text-lg text-forest">Czego nie robimy</h3>
+        <ul class="mt-4 grid gap-2.5 sm:grid-cols-2">
+          {
+            exclusions.map((e) => (
+              <li class="flex items-start gap-2.5 text-sm text-ink-soft">
+                <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sand" aria-hidden="true" />
+                {e}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
       <div class="mt-10 rounded border border-ivory-line bg-white p-7">
         <h3 class="font-display text-lg text-forest">Ile to kosztuje?</h3>
         <p class="mt-3 leading-relaxed text-ink-soft">
-          Nie publikujemy sztywnego cennika, bo dwa podobne metrażem lokale potrafią
-          wymagać zupełnie różnej ilości pracy. Zamiast tego wyceniamy konkretnie:
-          opisz zakres, dorzuć kilka zdjęć — odeślemy cenę <strong class="text-ink"
-            >przed rozpoczęciem pracy</strong
-          >.
+          {isOffice
+            ? 'Cenę ustalamy po bezpłatnej wizycie w obiekcie — zależy od metrażu, częstotliwości i zakresu.'
+            : 'Nie publikujemy sztywnego cennika, bo dwa podobne metrażem lokale potrafią wymagać zupełnie różnej ilości pracy.'}
+          {!isOffice && (
+            <>
+              {' '}Zamiast tego wyceniamy konkretnie: opisz zakres, dorzuć kilka zdjęć — odeślemy
+              cenę <strong class="text-ink">przed rozpoczęciem pracy</strong>.
+            </>
+          )}
         </p>
-        <a href="/wycena" class="btn btn-primary mt-6">Poproś o wycenę</a>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href={isOffice ? '/dla-firm' : '/wycena'} class="btn btn-primary">
+            {isOffice ? 'Umów bezpłatną wizytę' : 'Poproś o wycenę'}
+          </a>
+          {!isOffice && (
+            <a href="/kalkulator" class="btn btn-ghost">Kalkulator orientacyjny</a>
+          )}
+        </div>
       </div>
     </section>
 

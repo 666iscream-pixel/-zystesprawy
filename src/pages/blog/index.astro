@@ -1,0 +1,22 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import EmptySection from '@/components/EmptySection.astro';
+---
+
+<BaseLayout
+  title="Blog"
+  description="Blog Czyste Sprawy — porady o sprzątaniu, historie z realizacji i życie firmy w Poznaniu. Sekcja w przygotowaniu."
+  path="/blog"
+  noindex
+>
+  <EmptySection
+    title="Blog"
+    lead="Ta sekcja jest w przygotowaniu. Będziemy tu pisać o naszej pracy — poradach, przypadkach i tym, co dzieje się za kulisami firmy."
+    soon={[
+      'Jak przygotować mieszkanie do sprzątania po remoncie',
+      'Ile naprawdę kosztuje sprzątanie w Poznaniu',
+      'Historie z realizacji — trudne przypadki i jak sobie z nimi radzimy',
+      'Porady pielęgnacyjne dla różnych powierzchni',
+    ]}
+  />
+</BaseLayout>

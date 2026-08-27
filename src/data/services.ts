@@ -1,13 +1,14 @@
 /**
  * Usługi.
  *
- * Zestaw usług pochodzi z profilu Fixly (dokładnie trzy). Zakresy prac to
- * standard branżowy spisany tak, żeby był konkretny i sprawdzalny —
+ * Rozszerzone z 3 do 5 pozycji na podstawie materiałów referencyjnych
+ * (struktura usług konkurencji — Extra Cleaning Warszawa) i wprost
+ * z życzenia właścicielki. Zakresy prac to standard branżowy —
  * ⚠️ DO POTWIERDZENIA przez właścicielkę przed publikacją (README).
  *
- * Cen NIE podajemy: firma nie ma opublikowanego cennika ("Brak cennika"
- * na Fixly), a wymyślanie stawek byłoby wprowadzaniem klienta w błąd.
- * Zamiast tego prowadzimy do bezpłatnej wyceny.
+ * Cen bazowych NIE podajemy jako ostatecznych: firma nie ma publikowanego
+ * cennika. Orientacyjne widełki (kalkulator) liczone są z cen referencyjnych
+ * rynku — patrz `src/data/pricing.ts` i README.
  */
 
 export type ScopeGroup = { title: string; items: string[] };
@@ -18,7 +19,7 @@ export type Service = {
   short: string;
   lead: string;
   forWhom: string;
-  icon: 'home' | 'window' | 'office';
+  icon: 'home' | 'window' | 'office' | 'renovation' | 'keys';
   groups: ScopeGroup[];
   notes: string[];
   order: number;
@@ -71,7 +72,50 @@ export const services: Service[] = [
     notes: [
       'Sprzątanie generalne obejmuje dodatkowo trudniejsze zabrudzenia, fugi oraz przestrzeń pod odsuwanymi meblami — wyceniamy je osobno.',
       'Mycie okien to usługa dodatkowa, rozliczana za okno.',
-      'Wnętrza sprzętu AGD (piekarnik, lodówka, mikrofalówka) — na życzenie, po wcześniejszym ustaleniu.',
+      'Wnętrza sprzętu AGD (piekarnik, lodówka, mikrofalówka) — na życzenie, patrz usługi dodatkowe.',
+    ],
+  },
+
+  {
+    slug: 'sprzatanie-po-remoncie',
+    name: 'Sprzątanie po remoncie',
+    short: 'Po remoncie',
+    lead: 'Usuwamy pył budowlany, resztki farby, silikonu i kleju — i doprowadzamy wnętrze do stanu, w którym można się wprowadzić.',
+    forWhom:
+      'Po zakończonym remoncie lub wykończeniu mieszkania od dewelopera, kiedy ekipa budowlana już wyszła, a wnętrze nadal nie nadaje się do zamieszkania.',
+    icon: 'renovation',
+    order: 2,
+    groups: [
+      {
+        title: 'Usuwanie zabrudzeń poremontowych',
+        items: [
+          'Dokładne usuwanie pyłu budowlanego ze wszystkich dostępnych powierzchni',
+          'Usuwanie śladów po taśmach malarskich, naklejkach oraz kleju',
+          'Usuwanie pozostałości farby i silikonu — w zakresie bezpiecznym dla powierzchni',
+          'Usuwanie kurzu i pyłu z podłóg, ścian i mebli',
+        ],
+      },
+      {
+        title: 'Wykończenie i detale',
+        items: [
+          'Mycie drzwi, futryn, parapetów, listew przypodłogowych i klamek',
+          'Czyszczenie włączników światła i gniazdek',
+          'Czyszczenie blatów i widocznych powierzchni',
+          'Czyszczenie mebli i sprzętów AGD z zewnątrz',
+        ],
+      },
+      {
+        title: 'Kuchnia i łazienka',
+        items: [
+          'Mycie blatów, zlewu i armatury',
+          'Usuwanie kurzu i resztek farby oraz pyłu z płytek i fug',
+          'Dokładne odkurzanie i mycie podłóg we wszystkich pomieszczeniach',
+        ],
+      },
+    ],
+    notes: [
+      'Mycie okien po remoncie (z resztkami farby, kleju i taśm) to usługa dodatkowa, wyceniana osobno — patrz cennik dodatków.',
+      'Pozostałości farby i silikonu usuwamy tylko w zakresie bezpiecznym dla powierzchni — nie ryzykujemy uszkodzenia paneli, fug czy ram.',
     ],
   },
 
@@ -83,7 +127,7 @@ export const services: Service[] = [
     forWhom:
       'Sezonowo wiosną i jesienią, po remoncie, przed wynajmem albo zawsze wtedy, gdy światło przestaje wpadać tak, jak powinno.',
     icon: 'window',
-    order: 2,
+    order: 3,
     groups: [
       {
         title: 'Zakres',
@@ -99,19 +143,19 @@ export const services: Service[] = [
     notes: [
       'Wycena zależy od liczby okien, typu ram i liczby skrzydeł — dlatego liczymy za okno, a nie za metr.',
       'Nie myjemy okien od zewnątrz na wysokości wymagającej dostępu linowego lub podnośnika.',
-      'Okna po remoncie, z resztkami farby, kleju czy taśm, wyceniamy indywidualnie — to bardziej czasochłonne niż samo mycie.',
+      'Okna po remoncie, z resztkami farby, kleju czy taśm, wyceniamy jako osobną pozycję — patrz cennik dodatków.',
     ],
   },
 
   {
     slug: 'sprzatanie-biur',
-    name: 'Sprzątanie biur',
-    short: 'Biura',
+    name: 'Sprzątanie biur, firm i instytucji',
+    short: 'Biura i firmy',
     lead: 'Regularna obsługa biur, gabinetów i lokali usługowych — rano lub wieczorem, bez zakłócania pracy zespołu.',
     forWhom:
-      'Małe i średnie biura, gabinety, salony i studia, które potrzebują stałego, przewidywalnego standardu czystości.',
+      'Małe i średnie biura, gabinety, salony, lokale usługowe i instytucje, które potrzebują stałego, przewidywalnego standardu czystości.',
     icon: 'office',
-    order: 3,
+    order: 4,
     groups: [
       {
         title: 'Stanowiska pracy',
@@ -141,9 +185,38 @@ export const services: Service[] = [
       },
     ],
     notes: [
-      'Zakres i częstotliwość ustalamy po bezpłatnej wizycie w obiekcie.',
+      'Zakres i częstotliwość ustalamy po bezpłatnej wizycie w obiekcie — pakiety abonamentowe: patrz oferta dla firm.',
       'Pracujemy poza godzinami pracy biura, jeśli tak jest wygodniej.',
       'Rozliczenie na fakturę, w cyklu miesięcznym.',
+    ],
+  },
+
+  {
+    slug: 'sprzatanie-po-wynajmie',
+    name: 'Sprzątanie po wynajmie krótkoterminowym',
+    short: 'Po wynajmie',
+    lead: 'Szybkie przygotowanie mieszkania między gośćmi — dla właścicieli lokali na wynajem krótkoterminowy i Airbnb.',
+    forWhom:
+      'Właściciele i zarządcy mieszkań wynajmowanych krótkoterminowo, którzy potrzebują niezawodnego sprzątania między turami gości, często tego samego dnia.',
+    icon: 'keys',
+    order: 5,
+    groups: [
+      {
+        title: 'Przygotowanie do kolejnego gościa',
+        items: [
+          'Zmiana i poprawienie pościeli oraz ręczników (jeśli dostarczone)',
+          'Dokładne sprzątanie łazienki i kuchni',
+          'Mycie naczyń pozostawionych przez poprzednich gości',
+          'Odkurzanie i mycie podłóg we wszystkich pomieszczeniach',
+          'Wyniesienie śmieci i uzupełnienie koszy na worki',
+          'Sprawdzenie i zgłoszenie usterek lub braków',
+        ],
+      },
+    ],
+    notes: [
+      'Usługa działa najlepiej przy stałej współpracy — ustalony harmonogram między wymeldowaniem a zameldowaniem.',
+      'Pranie pościeli i ręczników poza lokalem — do ustalenia indywidualnie.',
+      'Przy krótkim oknie czasowym między gośćmi termin potwierdzamy z wyprzedzeniem.',
     ],
   },
 ];
@@ -152,25 +225,34 @@ export function getService(slug: string): Service | undefined {
   return services.find((s) => s.slug === slug);
 }
 
-/** Obietnice, które da się sprawdzić — bez ogólników typu „profesjonalizm”. */
-export const promises = [
-  {
-    title: '4 lata doświadczenia',
-    body: 'Firma działa od czterech lat i jest zweryfikowana w rejestrze GUS. Za każde zlecenie odpowiada konkretna osoba, nie infolinia.',
-  },
-  {
-    title: 'Bezpłatna wycena przed startem',
-    body: 'Cenę ustalamy przed rozpoczęciem pracy — na podstawie metrażu, zakresu i zdjęć. Bez dopłat wymyślonych na miejscu.',
-  },
-  {
-    title: 'Własny sprzęt i środki',
-    body: 'Przyjeżdżamy z profesjonalnym sprzętem i środkami dobranymi do rodzaju powierzchni. Nie musisz nic przygotowywać.',
-  },
-  {
-    title: 'Indywidualne podejście',
-    body: 'Zakres ustalamy pod konkretne mieszkanie czy biuro, a nie według jednego uniwersalnego szablonu.',
-  },
+/**
+ * Czego nie robimy — wprost od właścicielki. Wyświetlane na każdej stronie
+ * usługi i w zasadach współpracy, żeby nie było niedomówień.
+ */
+export const exclusions = [
+  'Nie przenosimy mebli',
+  'Nie czyścimy rolet i żaluzji',
+  'Nie myjemy żyrandoli',
+  'Nie myjemy klatki schodowej',
+  'Nie myjemy sufitów',
+  'Nie dezynfekujemy pomieszczenia',
 ];
+
+/**
+ * Konkretne, sprawdzalne atuty — zastępują ogólnikowe hasła.
+ * Ubezpieczenie OC dodane osobno w src/data/site.ts (silniejszy sygnał,
+ * eksponowany w pasku zaufania).
+ */
+export const usp = [
+  { title: 'Profesjonalny sprzęt', icon: 'tool' },
+  { title: 'Doświadczona ekipa sprzątająca', icon: 'team' },
+  { title: 'Najwyższa jakość wykonanej usługi', icon: 'sparkle' },
+  { title: 'Konkurencyjne ceny', icon: 'tag' },
+  { title: 'Bezpieczeństwo', icon: 'shield' },
+  { title: 'Gwarancja satysfakcji', icon: 'check' },
+  { title: 'Indywidualne podejście do klienta', icon: 'heart' },
+  { title: 'Ubezpieczenie OC 1 000 000 zł', icon: 'insurance' },
+] as const;
 
 export const alwaysIncluded = [
   'Bezpłatna wycena',

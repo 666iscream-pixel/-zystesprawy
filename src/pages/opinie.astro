@@ -8,34 +8,16 @@ import { site } from '@/data/site';
 
 <BaseLayout
   title="Opinie klientów"
-  description="Opinie o Czyste Sprawy — ocena 5.0 na Fixly. Sprzątanie mieszkań i mycie okien w Poznaniu."
+  description="Opinie o Czyste Sprawy — sprzątanie mieszkań i mycie okien w Poznaniu."
   path="/opinie"
+  noindex
 >
   <section class="mx-auto max-w-4xl px-5 pb-12 pt-16">
     <SectionHeading
       eyebrow="Opinie"
-      title="Ocena 5.0 — bez wyjątku"
-      lead="Firma jest młoda, więc opinii jest na razie niewiele. Za to wszystkie są na pięć gwiazdek i wszystkie da się sprawdzić na profilu Fixly."
+      title="Co mówią klienci"
+      lead="Firma jest młoda, więc opinii jest na razie niewiele. Każdą da się sprawdzić na profilu Fixly."
     />
-
-    <div class="mt-10 flex flex-wrap items-center gap-x-10 gap-y-4 rounded border border-ivory-line bg-white p-7">
-      <p>
-        <span class="font-display text-4xl text-forest">{site.proof.rating.toFixed(1)}</span>
-        <span class="ml-1 text-xl text-sand">★</span>
-      </p>
-      <p class="text-ink-soft">
-        <span class="block font-semibold text-ink">
-          {site.proof.reviewsCount} opinie od {site.proof.reviewsCount} klientów
-        </span>
-        100% ocen na 5 gwiazdek
-      </p>
-      <a
-        href={site.fixly}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn btn-ghost ml-auto !py-3 text-sm">Sprawdź na Fixly</a
-      >
-    </div>
 
     <div class="mt-10"><Reviews /></div>
 

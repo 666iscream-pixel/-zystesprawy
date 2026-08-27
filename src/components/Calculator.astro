@@ -1,0 +1,230 @@
+---
+/**
+ * Kalkulator orientacyjny.
+ *
+ * Liczy wyłącznie na podstawie danych z src/data/pricing.ts i addons.ts —
+ * czyli na cenach REFERENCYJNYCH, nie potwierdzonych przez właścicielkę.
+ * Dlatego wynik zawsze kończy się przypomnieniem "orientacyjnie" i CTA
+ * do bezpłatnej, dokładnej wyceny (/wycena).
+ */
+import {
+  priceMatrix,
+  calculatorServices,
+  roomTiers,
+  windowPrice,
+  formatRange,
+} from '@/data/pricing';
+import { addons } from '@/data/addons';
+import Icon from './Icon.astro';
+import { site } from '@/data/site';
+
+const curated = addons.filter((a) => a.inCalculator);
+
+const config = {
+  matrix: priceMatrix,
+  services: calculatorServices,
+  tiers: roomTiers,
+  window: windowPrice,
+  addons: curated.map((a) => ({ id: a.id, label: a.label, price: a.price, unit: a.unit })),
+  wa: site.whatsapp,
+};
+---
+
+<section id="kalkulator" class="scroll-mt-24">
+  <div class="rounded border border-ivory-line bg-white">
+    <div class="border-b border-ivory-line bg-ivory-warm px-6 py-6 sm:px-9">
+      <h2 class="display-md font-display text-forest">Kalkulator orientacyjny</h2>
+      <p class="mt-2 text-sm text-ink-soft">
+        Kilka pytań, przybliżony koszt. Cena ostateczna jest ustalana po
+        bezpłatnej wycenie — te widełki to punkt wyjścia do rozmowy, nie
+        gotowa oferta.
+      </p>
+    </div>
+
+    <form id="calc" class="grid gap-9 px-6 py-8 sm:px-9 lg:grid-cols-[1fr_20rem] lg:gap-10">
+      <div class="space-y-9">
+        <fieldset>
+          <legend class="font-display text-lg text-forest">1. Rodzaj sprzątania</legend>
+          <div class="mt-4 grid gap-2.5 sm:grid-cols-3">
+            {
+              calculatorServices.map((s, i) => (
+                <label class="flex cursor-pointer items-center gap-3 rounded border border-ivory-line bg-white p-4 text-sm transition-colors hover:border-forest/40 has-[:checked]:border-forest has-[:checked]:bg-sage/40">
+                  <input
+                    type="radio"
+                    name="service"
+                    value={s.slug}
+                    checked={i === 0}
+                    class="accent-[var(--color-forest)]"
+                  />
+                  {s.label}
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend class="font-display text-lg text-forest">2. Wielkość mieszkania</legend>
+          <div class="mt-4 grid gap-2.5 sm:grid-cols-2">
+            {
+              roomTiers.map((t, i) => (
+                <label class="flex cursor-pointer items-start gap-3 rounded border border-ivory-line bg-white p-4 transition-colors hover:border-forest/40 has-[:checked]:border-forest has-[:checked]:bg-sage/40">
+                  <input
+                    type="radio"
+                    name="tier"
+                    value={t.id}
+                    checked={i === 1}
+                    class="mt-1 accent-[var(--color-forest)]"
+                  />
+                  <span>
+                    <span class="block font-semibold">{t.label}</span>
+                    <span class="mt-0.5 block text-xs text-ink-mute">{t.hint}</span>
+                  </span>
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend class="font-display text-lg text-forest">3. Mycie okien</legend>
+          <div class="mt-4 flex items-center gap-4 rounded border border-ivory-line bg-white p-4">
+            <span class="text-sm text-ink-soft">Liczba okien</span>
+            <div class="ml-auto flex items-center gap-3">
+              <button type="button" class="win-btn h-9 w-9 rounded-full border border-ivory-line font-bold text-forest" data-step="-1" aria-label="Mniej okien">−</button>
+              <input type="number" id="okna" class="w-10 bg-transparent text-center font-display font-semibold" value="0" min="0" max="60" />
+              <button type="button" class="win-btn h-9 w-9 rounded-full border border-ivory-line font-bold text-forest" data-step="1" aria-label="Więcej okien">+</button>
+            </div>
+          </div>
+          <p class="mt-2 text-xs text-ink-mute">
+            {formatRange(windowPrice)} za okno.
+          </p>
+        </fieldset>
+
+        <fieldset>
+          <legend class="font-display text-lg text-forest">4. Dodatkowo</legend>
+          <div class="mt-4 grid gap-2 sm:grid-cols-2">
+            {
+              curated.map((a) => (
+                <label class="flex cursor-pointer items-center justify-between gap-3 rounded border border-ivory-line bg-white px-4 py-3 text-sm transition-colors hover:border-forest/40 has-[:checked]:border-forest has-[:checked]:bg-sage/40">
+                  <span class="flex items-center gap-2.5">
+                    <input type="checkbox" name="addon" value={a.id} class="accent-[var(--color-forest)]" />
+                    {a.label}
+                  </span>
+                  <span class="shrink-0 font-semibold text-forest">
+                    {a.price !== null ? `${a.price} zł` : 'wycena'}
+                  </span>
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+      </div>
+
+      <aside class="lg:sticky lg:top-32 lg:self-start">
+        <div class="rounded border-2 border-forest bg-sage/40 p-6">
+          <p class="eyebrow">Szacunkowy koszt</p>
+          <p id="result" class="mt-2 font-display text-4xl text-forest">200–260 zł</p>
+          <p id="result-note" class="mt-3 text-sm text-ink-soft"></p>
+
+          <hr class="my-5 border-forest/15" />
+
+          <p class="text-sm leading-relaxed text-ink-soft">
+            To orientacja, nie oferta. Dokładną cenę potwierdzamy po
+            bezpłatnej wycenie.
+          </p>
+
+          <a id="wa-cta" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer" class="btn btn-primary mt-5 w-full">
+            Wyślij na WhatsApp
+          </a>
+          <a href="/wycena" class="btn btn-ghost mt-2.5 w-full !py-3 text-sm">
+            Wolę dokładny formularz
+          </a>
+        </div>
+      </aside>
+    </form>
+  </div>
+</section>
+
+<script is:inline set:html={`window.__CS_CALC__ = ${JSON.stringify(config)};`} />
+
+<script>
+  type Range = { from: number; to: number | null };
+  type Cfg = {
+    matrix: Record<string, Record<string, Range>>;
+    services: { slug: string; label: string }[];
+    tiers: { id: string; label: string }[];
+    window: Range;
+    addons: { id: string; label: string; price: number | null; unit: string }[];
+    wa: string;
+  };
+
+  const cfg = (window as unknown as { __CS_CALC__: Cfg }).__CS_CALC__;
+  const form = document.getElementById('calc') as HTMLFormElement | null;
+
+  if (form && cfg) {
+    const oknaEl = document.getElementById('okna') as HTMLInputElement;
+    const result = document.getElementById('result')!;
+    const note = document.getElementById('result-note')!;
+    const cta = document.getElementById('wa-cta') as HTMLAnchorElement;
+
+    const zl = (n: number) => `${n.toLocaleString('pl-PL')} zł`;
+
+    document.querySelectorAll<HTMLButtonElement>('.win-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const next = (parseInt(oknaEl.value || '0', 10) || 0) + Number(btn.dataset.step);
+        oknaEl.value = String(Math.max(0, Math.min(60, next)));
+        update();
+      });
+    });
+
+    function update() {
+      const slug = (form!.querySelector('input[name="service"]:checked') as HTMLInputElement).value;
+      const tier = (form!.querySelector('input[name="tier"]:checked') as HTMLInputElement).value;
+      const base = cfg.matrix[slug]![tier]!;
+
+      const okna = Math.max(0, parseInt(oknaEl.value || '0', 10) || 0);
+      const winFrom = okna * cfg.window.from;
+      const winTo = cfg.window.to === null ? null : okna * cfg.window.to;
+
+      const checked = [...form!.querySelectorAll<HTMLInputElement>('input[name="addon"]:checked')];
+      let addonSum = 0;
+      let hasQuote = false;
+      const labels: string[] = [];
+      for (const el of checked) {
+        const a = cfg.addons.find((x) => x.id === el.value);
+        if (!a) continue;
+        labels.push(a.label);
+        if (a.price === null) hasQuote = true;
+        else addonSum += a.price;
+      }
+
+      const from = base.from + winFrom + addonSum;
+      const openEnded = base.to === null || winTo === null;
+      const to = openEnded ? null : base.to! + winTo! + addonSum;
+
+      result.textContent = to === null ? `od ${zl(from)}` : `${zl(from)} – ${zl(to)}`;
+      note.textContent = hasQuote
+        ? 'Część zaznaczonych dodatków wymaga indywidualnej wyceny — doliczymy je po ustaleniu szczegółów.'
+        : 'Widełki orientacyjne — ostateczna cena po bezpłatnej wycenie.';
+
+      const service = cfg.services.find((s) => s.slug === slug)!;
+      const tierLabel = cfg.tiers.find((t) => t.id === tier)!.label;
+      const lines = [
+        'Dzień dobry! Piszę ze strony czystesprawy.pl.',
+        '',
+        `Usługa: ${service.label}`,
+        `Wielkość: ${tierLabel}`,
+      ];
+      if (okna > 0) lines.push(`Okna do umycia: ${okna}`);
+      if (labels.length) lines.push(`Dodatkowo: ${labels.join(', ')}`);
+      lines.push('', `Kalkulator pokazał: ${result.textContent}`, 'Proszę o dokładną wycenę.');
+      cta.href = `https://wa.me/${cfg.wa}?text=${encodeURIComponent(lines.join('\n'))}`;
+    }
+
+    form.addEventListener('input', update);
+    form.addEventListener('change', update);
+    form.addEventListener('submit', (e) => e.preventDefault());
+    update();
+  }
+</script>

@@ -1,0 +1,107 @@
+---
+/**
+ * Jeden zestaw ikon liniowych dla całego serwisu — usługi, USP, kategorie
+ * dodatków. Zamiast osobnej ilustracji dla każdej z ~30 pozycji cennika
+ * dodatków (co byłoby nadmiarem), dodatki dostają ikonę swojej kategorii.
+ */
+type IconName =
+  'home' | 'window' | 'office' | 'renovation' | 'keys' |
+  'tool' | 'team' | 'sparkle' | 'tag' | 'shield' | 'check' |
+  'heart' | 'insurance' | 'sofa' | 'oven' | 'clock';
+
+interface Props {
+  name: IconName;
+  class?: string;
+}
+const { name, class: klass = '' } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={klass}
+  aria-hidden="true"
+>
+  {name === 'home' && <path d="M4 11.5 12 4l8 7.5M6 10v9h12v-9" />}
+  {name === 'window' && (
+    <>
+      <rect x="4" y="4" width="16" height="16" rx="1" />
+      <path d="M12 4v16M4 12h16" />
+    </>
+  )}
+  {name === 'office' && (
+    <>
+      <rect x="4" y="3" width="16" height="18" rx="1" />
+      <path d="M8 8h2M14 8h2M8 12h2M14 12h2M8 16h2M14 16h2" />
+    </>
+  )}
+  {name === 'renovation' && (
+    <>
+      <path d="M14.5 5.5 18.5 9.5" />
+      <path d="M3 21l6.5-6.5" />
+      <path d="M11 8l5 5 3-3-5-5-3 3Z" />
+    </>
+  )}
+  {name === 'keys' && (
+    <>
+      <circle cx="8" cy="15" r="4" />
+      <path d="M11 12l9-9M17 6l2 2M14 9l2 2" />
+    </>
+  )}
+  {name === 'tool' && (
+    <path d="M14.7 6.3a3.5 3.5 0 0 0-4.7 4.2L4 16.5V20h3.5l6-6a3.5 3.5 0 0 0 4.2-4.7l-2.3 2.3-2-2 2.3-2.3Z" />
+  )}
+  {name === 'team' && (
+    <>
+      <circle cx="9" cy="8" r="3" />
+      <circle cx="17" cy="9" r="2.4" />
+      <path d="M3.5 20v-1.5A4.5 4.5 0 0 1 8 14h2a4.5 4.5 0 0 1 4.5 4.5V20" />
+      <path d="M15 14.3a3.2 3.2 0 0 1 5.5 2.2V20" />
+    </>
+  )}
+  {name === 'sparkle' && (
+    <path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6L12 3Z" />
+  )}
+  {name === 'tag' && (
+    <>
+      <path d="M20 12.5 12.5 20 4 11.5V4h7.5L20 12.5Z" />
+      <circle cx="8" cy="8" r="1.4" fill="currentColor" stroke="none" />
+    </>
+  )}
+  {name === 'shield' && <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z" />}
+  {name === 'check' && <path d="M4.5 12.6 9.6 17.5 19.5 6.8" />}
+  {name === 'heart' && (
+    <path d="M12 20s-7-4.4-9.5-9C.8 7.4 3 4 6.5 4c2 0 3.6 1.2 4.5 2.6C11.9 5.2 13.5 4 15.5 4 19 4 21.2 7.4 21.5 11c-2.5 4.6-9.5 9-9.5 9Z" />
+  )}
+  {name === 'insurance' && (
+    <>
+      <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z" />
+      <path d="M9.5 12l1.8 1.8L15 9.6" />
+    </>
+  )}
+  {name === 'sofa' && (
+    <>
+      <path d="M5 12V9a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3" />
+      <path d="M3 12h18v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4Z" />
+      <path d="M5 17v2M19 17v2" />
+    </>
+  )}
+  {name === 'oven' && (
+    <>
+      <rect x="4" y="4" width="16" height="16" rx="1.5" />
+      <path d="M4 9h16" />
+      <circle cx="7" cy="6.5" r="0.6" fill="currentColor" stroke="none" />
+      <rect x="7" y="12" width="10" height="5" rx="0.5" />
+    </>
+  )}
+  {name === 'clock' && (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </>
+  )}
+</svg>

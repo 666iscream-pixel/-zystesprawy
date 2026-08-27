@@ -1,0 +1,39 @@
+---
+/**
+ * Placeholder dla sekcji czekających na materiały (galeria, blog).
+ */
+import { waLink, waDefaultMessage } from '@/data/site';
+
+interface Props {
+  title: string;
+  lead: string;
+  soon: string[];
+}
+const { title, lead, soon } = Astro.props;
+---
+
+<section class="mx-auto max-w-3xl px-5 py-16 text-center">
+  <h1 class="display-lg font-display text-forest">{title}</h1>
+  <p class="mx-auto mt-5 max-w-xl text-lg text-ink-soft">{lead}</p>
+
+  <div class="mx-auto mt-10 max-w-md rounded border border-dashed border-forest/30 bg-ivory-warm p-6 text-left">
+    <p class="eyebrow">Wkrótce w tej sekcji</p>
+    <ul class="mt-4 space-y-2 text-sm text-ink-soft">
+      {
+        soon.map((s) => (
+          <li class="flex gap-2.5">
+            <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sand" />
+            {s}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+    <a href={waLink(waDefaultMessage)} target="_blank" rel="noopener noreferrer" class="btn btn-primary w-full sm:w-auto">
+      Napisz na WhatsApp
+    </a>
+    <a href="/uslugi" class="btn btn-ghost w-full sm:w-auto">Zobacz usługi</a>
+  </div>
+</section>

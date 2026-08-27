@@ -8,18 +8,28 @@
 
 /* ------------------------------------------------------------------
    Czyste Sprawy — design tokens
-   Źródło: logotyp (monogram CS). Dwa kolory, bez wyjątków:
-   głęboka zieleń i kość słoniowa. Akcent piaskowy tylko na detale.
+   Źródło: logotyp (monogram CS).
+
+   Zasada po korekcie: głęboka zieleń to AKCENT (logo, przyciski, ciemne
+   pasy), nie dominanta. Świeżość i "czystość" niesie jasny szałwiowy/
+   miętowy, nie granat butelkowy na każdym metrze strony. Dzięki temu
+   ciemny kolor zostaje rozpoznawalny i mocny tam, gdzie ma znaczenie.
    ------------------------------------------------------------------ */
 @theme {
-  --color-forest: #1c4520; /* kolor marki — próbka z logotypu */
+  --color-forest: #1c4520; /* AKCENT: logo, przyciski, wąskie pasy — nie tło sekcji */
   --color-forest-deep: #143318;
   --color-forest-soft: #2c5f33;
   --color-forest-mute: #6d8a70;
 
-  --color-ivory: #f4f2ec; /* tło strony */
-  --color-ivory-warm: #ebe8df; /* tło sekcji */
-  --color-ivory-line: #ddd9cd; /* obramowania */
+  /* Świeżość: jasna szałwia/mięta — do luźnych "kart świeżości",
+     ikon i delikatnych podświetleń. Nigdy jako duży, nasycony blok. */
+  --color-sage: #dce6dc;
+  --color-sage-deep: #c3d3c2;
+  --color-mint-ink: #2f4a34; /* tekst na jasnej szałwii — czytelny, nie krzyczy zielenią */
+
+  --color-ivory: #f7f6f1; /* tło strony — jaśniejsze niż poprzednio */
+  --color-ivory-warm: #eef0e9; /* tło sekcji — z lekkim, chłodniejszym odcieniem szałwii */
+  --color-ivory-line: #e2ded2; /* obramowania */
 
   --color-sand: #b79a5b; /* wąski akcent: linie, cyfry, detale */
   --color-ink: #17211a;
@@ -149,6 +159,15 @@
     background: #fff;
     border: 1px solid var(--color-ivory-line);
     border-radius: var(--radius-card);
+  }
+
+  /* Karta "świeżości" — jasna szałwia zamiast białej/zielonej dominanty.
+     Do bloków USP, kafli usług na stronie głównej itp. */
+  .card-sage {
+    background: var(--color-sage);
+    border: 1px solid var(--color-sage-deep);
+    border-radius: var(--radius-card);
+    color: var(--color-mint-ink);
   }
 
   .rule {

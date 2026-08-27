@@ -1,0 +1,116 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Icon from '@/components/Icon.astro';
+import Cta from '@/components/Cta.astro';
+import { officeIntro, officePackages, officeSteps } from '@/data/office';
+import { site, waLink } from '@/data/site';
+---
+
+<BaseLayout
+  title="Sprzątanie biur — oferta dla firm | Poznań"
+  description="Regularne sprzątanie biur, gabinetów i lokali usługowych w Poznaniu. Pakiet Podstawowy i Komfort, wycena po bezpłatnej wizycie w obiekcie."
+  path="/dla-firm"
+>
+  <section class="border-b border-ivory-line">
+    <div class="mx-auto max-w-3xl px-5 py-16 text-center">
+      <SectionHeading
+        eyebrow={officeIntro.eyebrow}
+        title={officeIntro.title}
+        lead={officeIntro.lead}
+        align="center"
+      />
+      <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+        <a
+          href={waLink('Dzień dobry! Piszę ze strony czystesprawy.pl — interesuje mnie sprzątanie biura. Metraż: ... Rodzaj obiektu: ...')}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-primary"
+        >
+          Umów bezpłatną wizytę
+        </a>
+        <a href="#pakiety" class="btn btn-ghost">Zobacz pakiety</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="pakiety" class="scroll-mt-24 mx-auto max-w-6xl px-5 py-20">
+    <div class="grid gap-6 lg:grid-cols-2">
+      {
+        officePackages.map((p) => (
+          <div class:list={['flex flex-col rounded border p-8', p.featured ? 'border-forest bg-sage/30' : 'border-ivory-line bg-white']}>
+            <div class="flex items-start justify-between gap-3">
+              <h3 class="font-display text-2xl text-forest">{p.name}</h3>
+              {'badge' in p && p.badge && (
+                <span class="shrink-0 rounded-full bg-forest px-3 py-1 text-xs font-semibold text-ivory">
+                  {p.badge}
+                </span>
+              )}
+            </div>
+            <p class="mt-1 text-sm font-semibold text-ink-soft">{p.tagline}</p>
+
+            <p class="mt-5 rounded border border-ivory-line bg-ivory-warm p-4 text-sm text-ink-soft">
+              <strong class="block text-ink">Dla kogo</strong>
+              {p.forWhom}
+            </p>
+
+            <p class="mt-5 font-display text-lg text-forest">{p.frequency}</p>
+            <ul class="mt-3 flex-1 space-y-2.5 text-sm">
+              {p.items.map((i) => (
+                <li class="flex items-start gap-2.5">
+                  <Icon name="check" class="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                  <span class="text-ink-soft">{i}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div class="mt-6 border-t border-ivory-line pt-5">
+              <p class="font-display text-xl text-forest">Wycena po wizycie</p>
+              <p class="mt-1 text-xs text-ink-mute">
+                Cena zależy od metrażu, częstotliwości i zakresu — bez zgadywania.
+              </p>
+            </div>
+
+            <a
+              href={waLink(`Dzień dobry! Piszę ze strony czystesprawy.pl — interesuje mnie ${p.name} dla biura.`)}
+              target="_blank"
+              rel="noopener noreferrer"
+              class:list={['btn mt-6 w-full', p.featured ? 'btn-primary' : 'btn-ghost']}
+            >
+              Zapytaj o wycenę
+            </a>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="mt-6 rounded border border-ivory-line bg-white p-5 text-sm text-ink-soft">
+      <strong class="text-ink">Potrzebujesz innej częstotliwości?</strong> Ustalamy ją indywidualnie
+      po wizycie — od codziennego sprzątania po wizyty raz na dwa tygodnie.
+    </p>
+  </section>
+
+  <section class="bg-forest py-20 text-ivory">
+    <div class="mx-auto max-w-6xl px-5">
+      <SectionHeading eyebrow="Jak zaczynamy" title="Cztery kroki" invert />
+      <ol class="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          officeSteps.map((s, i) => (
+            <li class="border-t border-ivory/20 pt-6">
+              <span class="font-display text-sm text-sand">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="mt-3 font-display text-xl">{s.title}</h3>
+              <p class="mt-2 leading-relaxed text-ivory/70">{s.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <div class="py-20">
+    <Cta
+      title="Umówmy bezpłatną wizytę w Twoim biurze"
+      lead="Obejrzymy obiekt, ustalimy realny zakres i przygotujemy konkretną wycenę na piśmie."
+    />
+  </div>
+</BaseLayout>
