@@ -1,0 +1,20 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Nie znaleziono strony"
+  description="Ta strona nie istnieje."
+  path="/404"
+  noindex
+>
+  <section class="mx-auto max-w-2xl px-5 py-28 text-center">
+    <p class="font-display text-6xl text-sand">404</p>
+    <h1 class="display-md mt-5 font-display text-forest">Tej strony u nas nie ma</h1>
+    <p class="mt-5 text-lg text-ink-soft">Może szukasz usług albo wyceny?</p>
+    <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+      <a href="/uslugi" class="btn btn-primary">Usługi</a>
+      <a href="/wycena" class="btn btn-ghost">Bezpłatna wycena</a>
+    </div>
+  </section>
+</BaseLayout>

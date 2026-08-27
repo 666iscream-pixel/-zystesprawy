@@ -1,0 +1,319 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Check from '@/components/Check.astro';
+import { services } from '@/data/services';
+import { site } from '@/data/site';
+
+/**
+ * Formularz wyceny zamiast kalkulatora.
+ *
+ * Firma nie ma opublikowanego cennika, więc kalkulator musiałby operować
+ * na zmyślonych stawkach. Zamiast tego zbieramy komplet informacji, które
+ * i tak trzeba znać do wyceny, i budujemy z nich gotową wiadomość.
+ * Klient wysyła ją jednym kliknięciem — my dostajemy uporządkowane zapytanie.
+ */
+
+const extras = [
+  { id: 'piekarnik', label: 'Wnętrze piekarnika' },
+  { id: 'lodowka', label: 'Wnętrze lodówki' },
+  { id: 'szafki', label: 'Szafki w środku' },
+  { id: 'fugi', label: 'Fugi w łazience' },
+  { id: 'balkon', label: 'Balkon lub taras' },
+  { id: 'po-remoncie', label: 'Po remoncie' },
+];
+
+const terms = [
+  'Jak najszybciej',
+  'W tym tygodniu',
+  'W przyszłym tygodniu',
+  'Termin do ustalenia',
+];
+---
+
+<BaseLayout
+  title="Bezpłatna wycena sprzątania — Poznań"
+  description="Opisz, co trzeba posprzątać — odeślemy konkretną cenę przed rozpoczęciem pracy. Bezpłatnie i bez zobowiązań. Poznań i okolice."
+  path="/wycena"
+>
+  <section class="mx-auto max-w-6xl px-5 pb-10 pt-16">
+    <SectionHeading
+      eyebrow="Wycena"
+      title="Bezpłatna wycena w kilka minut"
+      lead="Nie mamy sztywnego cennika, bo dwa lokale o tym samym metrażu potrafią wymagać zupełnie różnej ilości pracy. Wypełnij poniższe pola — przygotujemy konkretną cenę jeszcze przed rozpoczęciem sprzątania."
+    />
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 pb-24">
+    <form id="quote" class="grid gap-10 lg:grid-cols-[1fr_21rem] lg:gap-12">
+      <div class="space-y-10">
+        <!-- 1 -->
+        <fieldset>
+          <legend class="font-display text-xl text-forest">1. Czego potrzebujesz?</legend>
+          <div class="mt-5 grid gap-2.5 sm:grid-cols-2">
+            {
+              services.map((s, i) => (
+                <label class="flex cursor-pointer items-start gap-3 rounded border border-ivory-line bg-white p-4 transition-colors hover:border-forest/40 has-[:checked]:border-forest has-[:checked]:bg-forest/5">
+                  <input
+                    type="radio"
+                    name="usluga"
+                    value={s.name}
+                    checked={i === 0}
+                    class="mt-1 accent-[var(--color-forest)]"
+                  />
+                  <span>
+                    <span class="block font-semibold">{s.name}</span>
+                    <span class="mt-0.5 block text-xs leading-snug text-ink-mute">
+                      {s.short}
+                    </span>
+                  </span>
+                </label>
+              ))
+            }
+            <label class="flex cursor-pointer items-start gap-3 rounded border border-ivory-line bg-white p-4 transition-colors hover:border-forest/40 has-[:checked]:border-forest has-[:checked]:bg-forest/5">
+              <input
+                type="radio"
+                name="usluga"
+                value="Sprzątanie generalne"
+                class="mt-1 accent-[var(--color-forest)]"
+              />
+              <span>
+                <span class="block font-semibold">Sprzątanie generalne</span>
+                <span class="mt-0.5 block text-xs leading-snug text-ink-mute">
+                  Jednorazowe, dokładne doczyszczenie
+                </span>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- 2 -->
+        <fieldset>
+          <legend class="font-display text-xl text-forest">2. Obiekt</legend>
+          <div class="mt-5 grid gap-5 sm:grid-cols-3">
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-semibold">Rodzaj</span>
+              <select
+                name="obiekt"
+                class="w-full rounded border border-ivory-line bg-white px-4 py-3 focus:border-forest focus:outline-none"
+              >
+                <option>Mieszkanie</option>
+                <option>Dom</option>
+                <option>Biuro</option>
+                <option>Lokal usługowy</option>
+              </select>
+            </label>
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-semibold">Metraż (m²)</span>
+              <input
+                type="number"
+                name="metraz"
+                min="10"
+                max="1000"
+                placeholder="np. 55"
+                class="w-full rounded border border-ivory-line bg-white px-4 py-3 focus:border-forest focus:outline-none"
+              />
+            </label>
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-semibold">Łazienki</span>
+              <select
+                name="lazienki"
+                class="w-full rounded border border-ivory-line bg-white px-4 py-3 focus:border-forest focus:outline-none"
+              >
+                <option>1</option>
+                <option>2</option>
+                <option>3 lub więcej</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="mt-5 block max-w-xs">
+            <span class="mb-1.5 block text-sm font-semibold">Liczba okien do umycia</span>
+            <input
+              type="number"
+              name="okna"
+              min="0"
+              max="200"
+              value="0"
+              class="w-full rounded border border-ivory-line bg-white px-4 py-3 focus:border-forest focus:outline-none"
+            />
+            <span class="mt-1.5 block text-xs text-ink-mute">
+              Zostaw 0, jeśli mycie okien nie jest potrzebne.
+            </span>
+          </label>
+        </fieldset>
+
+        <!-- 3 -->
+        <fieldset>
+          <legend class="font-display text-xl text-forest">3. Dodatkowo</legend>
+          <p class="mt-2 text-sm text-ink-soft">Zaznacz, jeśli dotyczy. Wpływa na wycenę.</p>
+          <div class="mt-5 grid gap-2 sm:grid-cols-2">
+            {
+              extras.map((e) => (
+                <label class="flex cursor-pointer items-center gap-3 rounded border border-ivory-line bg-white px-4 py-3 text-sm transition-colors hover:border-forest/40 has-[:checked]:border-forest has-[:checked]:bg-forest/5">
+                  <input
+                    type="checkbox"
+                    name="extra"
+                    value={e.label}
+                    class="h-4 w-4 accent-[var(--color-forest)]"
+                  />
+                  {e.label}
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+
+        <!-- 4 -->
+        <fieldset>
+          <legend class="font-display text-xl text-forest">4. Termin i miejsce</legend>
+          <div class="mt-5 grid gap-5 sm:grid-cols-2">
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-semibold">Kiedy</span>
+              <select
+                name="termin"
+                class="w-full rounded border border-ivory-line bg-white px-4 py-3 focus:border-forest focus:outline-none"
+              >
+                {terms.map((t) => <option>{t}</option>)}
+              </select>
+            </label>
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-semibold">Miejscowość</span>
+              <select
+                name="miasto"
+                class="w-full rounded border border-ivory-line bg-white px-4 py-3 focus:border-forest focus:outline-none"
+              >
+                {site.areaServed.map((a) => <option>{a}</option>)}
+                <option>Inna miejscowość</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- 5 -->
+        <fieldset>
+          <legend class="font-display text-xl text-forest">5. Kontakt</legend>
+          <div class="mt-5 grid gap-5 sm:grid-cols-2">
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-semibold">Imię</span>
+              <input
+                type="text"
+                name="imie"
+                class="w-full rounded border border-ivory-line bg-white px-4 py-3 focus:border-forest focus:outline-none"
+              />
+            </label>
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-semibold">Telefon</span>
+              <input
+                type="tel"
+                name="telefon"
+                class="w-full rounded border border-ivory-line bg-white px-4 py-3 focus:border-forest focus:outline-none"
+              />
+            </label>
+          </div>
+          <label class="mt-5 block">
+            <span class="mb-1.5 block text-sm font-semibold">Uwagi</span>
+            <textarea
+              name="uwagi"
+              rows="3"
+              placeholder="Np. mieszkanie po wynajmie, dużo kamienia w łazience, zwierzęta w domu."
+              class="w-full rounded border border-ivory-line bg-white px-4 py-3 focus:border-forest focus:outline-none"></textarea>
+          </label>
+        </fieldset>
+      </div>
+
+      <!-- Podsumowanie -->
+      <aside class="lg:sticky lg:top-32 lg:self-start">
+        <div class="rounded border border-forest bg-white p-7">
+          <p class="eyebrow">Twoje zapytanie</p>
+          <pre
+            id="summary"
+            aria-live="polite"
+            class="mt-4 whitespace-pre-wrap font-sans text-sm leading-relaxed text-ink-soft"></pre>
+
+          <hr class="my-6 border-ivory-line" />
+
+          <p class="text-sm leading-relaxed text-ink-soft">
+            Wyślij jednym kliknięciem — odpiszemy z konkretną ceną.
+            <strong class="text-ink">Wycena jest bezpłatna i nie zobowiązuje.</strong>
+          </p>
+
+          <a
+            id="wa"
+            href={`https://wa.me/${site.whatsapp}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary mt-6 w-full">Wyślij na WhatsApp</a
+          >
+          <a id="mail" href={`mailto:${site.email}`} class="btn btn-ghost mt-2.5 w-full !py-3 text-sm">
+            Wyślij e-mailem
+          </a>
+
+          <ul class="mt-7 space-y-2 text-xs text-ink-mute">
+            <li class="flex items-start gap-2">
+              <Check class="mt-0.5 !h-3.5 !w-3.5" />Cena znana przed startem
+            </li>
+            <li class="flex items-start gap-2">
+              <Check class="mt-0.5 !h-3.5 !w-3.5" />Bez opłat za wycenę
+            </li>
+            <li class="flex items-start gap-2">
+              <Check class="mt-0.5 !h-3.5 !w-3.5" />Zdjęcia mile widziane — przyspieszają wycenę
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </form>
+  </section>
+</BaseLayout>
+
+<script is:inline define:vars={{ wa: site.whatsapp, mail: site.email }}>
+  const form = document.getElementById('quote');
+  const summary = document.getElementById('summary');
+  const waBtn = document.getElementById('wa');
+  const mailBtn = document.getElementById('mail');
+
+  function build() {
+    const d = new FormData(form);
+    const lines = ['Dzień dobry! Piszę ze strony czystesprawy.pl — proszę o wycenę.', ''];
+
+    lines.push(`Usługa: ${d.get('usluga')}`);
+    lines.push(`Obiekt: ${d.get('obiekt')}`);
+
+    const m = d.get('metraz');
+    if (m) lines.push(`Metraż: ok. ${m} m²`);
+    lines.push(`Łazienki: ${d.get('lazienki')}`);
+
+    const okna = Number(d.get('okna') || 0);
+    if (okna > 0) lines.push(`Okna do umycia: ${okna}`);
+
+    const extra = d.getAll('extra');
+    if (extra.length) lines.push(`Dodatkowo: ${extra.join(', ')}`);
+
+    lines.push(`Termin: ${d.get('termin')}`);
+    lines.push(`Miejscowość: ${d.get('miasto')}`);
+
+    const imie = d.get('imie');
+    const tel = d.get('telefon');
+    if (imie || tel) {
+      lines.push('');
+      if (imie) lines.push(`Imię: ${imie}`);
+      if (tel) lines.push(`Telefon: ${tel}`);
+    }
+
+    const uwagi = (d.get('uwagi') || '').toString().trim();
+    if (uwagi) {
+      lines.push('');
+      lines.push(`Uwagi: ${uwagi}`);
+    }
+
+    const text = lines.join('\n');
+    summary.textContent = text;
+    waBtn.href = `https://wa.me/${wa}?text=${encodeURIComponent(text)}`;
+    mailBtn.href = `mailto:${mail}?subject=${encodeURIComponent('Zapytanie o wycenę sprzątania')}&body=${encodeURIComponent(text)}`;
+  }
+
+  form.addEventListener('input', build);
+  form.addEventListener('change', build);
+  form.addEventListener('submit', (e) => e.preventDefault());
+  build();
+</script>

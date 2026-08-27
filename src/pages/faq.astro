@@ -1,0 +1,25 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Faq from '@/components/Faq.astro';
+import Cta from '@/components/Cta.astro';
+import { faq } from '@/data/faq';
+---
+
+<BaseLayout
+  title="Częste pytania"
+  description="Odpowiedzi na najczęstsze pytania: ile kosztuje sprzątanie, czy trzeba być w domu, czym różni się sprzątanie regularne od generalnego, gdzie pracujemy."
+  path="/faq"
+>
+  <section class="mx-auto max-w-3xl px-5 py-16">
+    <SectionHeading eyebrow="FAQ" title="Częste pytania" align="center" />
+    <div class="mt-12"><Faq items={faq} schema /></div>
+  </section>
+
+  <div class="pb-24">
+    <Cta
+      title="Nie znalazłeś odpowiedzi?"
+      lead="Napisz — odpowiadamy zwykle w ciągu kilkunastu minut."
+    />
+  </div>
+</BaseLayout>

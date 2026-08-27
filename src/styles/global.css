@@ -1,0 +1,180 @@
+@import 'tailwindcss';
+
+@import '@fontsource-variable/inter';
+@import '@fontsource/playfair-display/500.css';
+@import '@fontsource/playfair-display/600.css';
+@import '@fontsource/playfair-display/700.css';
+@import '@fontsource/playfair-display/500-italic.css';
+
+/* ------------------------------------------------------------------
+   Czyste Sprawy — design tokens
+   Źródło: logotyp (monogram CS). Dwa kolory, bez wyjątków:
+   głęboka zieleń i kość słoniowa. Akcent piaskowy tylko na detale.
+   ------------------------------------------------------------------ */
+@theme {
+  --color-forest: #1c4520; /* kolor marki — próbka z logotypu */
+  --color-forest-deep: #143318;
+  --color-forest-soft: #2c5f33;
+  --color-forest-mute: #6d8a70;
+
+  --color-ivory: #f4f2ec; /* tło strony */
+  --color-ivory-warm: #ebe8df; /* tło sekcji */
+  --color-ivory-line: #ddd9cd; /* obramowania */
+
+  --color-sand: #b79a5b; /* wąski akcent: linie, cyfry, detale */
+  --color-ink: #17211a;
+  --color-ink-soft: #4d574f;
+  --color-ink-mute: #808a82;
+
+  --font-display: 'Playfair Display', ui-serif, Georgia, serif;
+  --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 0.5rem; /* kanciasto i klasycznie — inaczej niż obłe trendy */
+  --radius-pill: 999px;
+
+  --breakpoint-xs: 24rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-forest);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-forest);
+    color: var(--color-ivory);
+  }
+}
+
+@layer components {
+  /* Skala typograficzna — kontrast wielkości robi za elegancję */
+  .display-xl {
+    font-size: clamp(2.6rem, 6.4vw, 4.6rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  .display-lg {
+    font-size: clamp(1.95rem, 4.2vw, 3.1rem);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+  .display-md {
+    font-size: clamp(1.45rem, 2.6vw, 2rem);
+    line-height: 1.16;
+  }
+
+  /* Nadlinie sekcji — rozstrzelone wersaliki, jak w wordmarku logo */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-ink-mute);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.94rem;
+    line-height: 1;
+    padding: 1rem 1.75rem;
+    border-radius: var(--radius-card);
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  .btn-primary {
+    background: var(--color-forest);
+    color: var(--color-ivory);
+  }
+  .btn-primary:hover {
+    background: var(--color-forest-deep);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-forest);
+    border: 1px solid var(--color-forest);
+  }
+  .btn-ghost:hover {
+    background: var(--color-forest);
+    color: var(--color-ivory);
+  }
+
+  .btn-light {
+    background: var(--color-ivory);
+    color: var(--color-forest);
+  }
+  .btn-light:hover {
+    background: #fff;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--color-ivory-line);
+    border-radius: var(--radius-card);
+  }
+
+  .rule {
+    border-top: 1px solid var(--color-ivory-line);
+  }
+
+  /* Cienka linia-akcent przy nadliniach */
+  .hairline::before {
+    content: '';
+    display: inline-block;
+    width: 2.25rem;
+    height: 1px;
+    margin-right: 0.85rem;
+    vertical-align: middle;
+    background: var(--color-sand);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,135 @@
+---
+import Logo from './Logo.astro';
+import { site } from '@/data/site';
+
+const nav = [
+  { href: '/uslugi', label: 'Usługi' },
+  { href: '/wycena', label: 'Wycena' },
+  { href: '/opinie', label: 'Opinie' },
+  { href: '/o-nas', label: 'O nas' },
+  { href: '/kontakt', label: 'Kontakt' },
+];
+
+const current = Astro.url.pathname;
+const isActive = (href: string) => current === href || current.startsWith(href + '/');
+---
+
+<header class="sticky top-0 z-40 bg-ivory/95 backdrop-blur">
+  <!-- Pasek kontaktowy: telefon i obszar zawsze widoczne -->
+  <div class="bg-forest text-ivory">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-2 text-[0.78rem]">
+      <p class="hidden text-ivory/70 sm:block">
+        {site.areaLabel} · {site.proof.yearsExperience} lata doświadczenia
+      </p>
+      <div class="flex w-full items-center justify-between gap-5 sm:w-auto sm:justify-end">
+        <a href={`tel:${site.phone}`} class="flex items-center gap-2 font-semibold hover:text-sand">
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path d="M5 4h3l2 5-2.2 1.3a12 12 0 0 0 5.9 5.9L15 14l5 2v3a2 2 0 0 1-2.2 2A16 16 0 0 1 3 6.2 2 2 0 0 1 5 4Z" stroke-linejoin="round"></path>
+          </svg>
+          {site.phoneDisplay}
+        </a>
+        <a
+          href={site.fixly}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-1.5 font-semibold hover:text-sand"
+        >
+          <span class="text-sand">★</span> {site.proof.rating.toFixed(1)}
+          <span class="hidden text-ivory/60 xs:inline">na Fixly</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-b border-ivory-line">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3.5">
+      <a href="/" aria-label="Czyste Sprawy — strona główna" class="shrink-0"><Logo /></a>
+
+      <nav aria-label="Główna" class="hidden lg:block">
+        <ul class="flex items-center gap-7 text-[0.92rem]">
+          {
+            nav.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                  class:list={[
+                    'transition-colors hover:text-forest',
+                    isActive(item.href)
+                      ? 'font-semibold text-forest'
+                      : 'text-ink-soft',
+                  ]}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <a
+          href={`tel:${site.phone}`}
+          class="flex h-11 w-11 items-center justify-center rounded border border-ivory-line text-forest sm:hidden"
+          aria-label="Zadzwoń"
+        >
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path d="M5 4h3l2 5-2.2 1.3a12 12 0 0 0 5.9 5.9L15 14l5 2v3a2 2 0 0 1-2.2 2A16 16 0 0 1 3 6.2 2 2 0 0 1 5 4Z" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+
+        <a href="/wycena" class="btn btn-primary hidden !px-5 !py-3 text-sm md:inline-flex">
+          Bezpłatna wycena
+        </a>
+
+        <button
+          type="button"
+          id="nav-toggle"
+          class="-mr-1 rounded p-2 text-forest lg:hidden"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+          aria-label="Otwórz menu"
+        >
+          <svg viewBox="0 0 24 24" class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <nav id="mobile-nav" aria-label="Mobilna" hidden class="border-b border-ivory-line bg-ivory lg:hidden">
+    <ul class="mx-auto max-w-6xl px-5 py-2">
+      {
+        nav.map((item) => (
+          <li class="border-b border-ivory-line/70">
+            <a
+              href={item.href}
+              class:list={[
+                'block py-3.5 font-medium',
+                isActive(item.href) ? 'text-forest' : 'text-ink',
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="py-4">
+        <a href="/wycena" class="btn btn-primary w-full !py-3 text-sm">Bezpłatna wycena</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const btn = document.getElementById('nav-toggle');
+  const menu = document.getElementById('mobile-nav');
+  btn?.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    btn.setAttribute('aria-label', open ? 'Otwórz menu' : 'Zamknij menu');
+    if (menu) menu.hidden = open;
+  });
+</script>

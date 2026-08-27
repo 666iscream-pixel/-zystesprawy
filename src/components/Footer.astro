@@ -1,0 +1,79 @@
+---
+import Logo from './Logo.astro';
+import { site } from '@/data/site';
+import { services } from '@/data/services';
+---
+
+<footer class="mt-24 bg-forest text-ivory">
+  <div class="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:grid-cols-2 lg:grid-cols-4">
+    <div>
+      <Logo invert />
+      <p class="mt-5 max-w-xs text-sm leading-relaxed text-ivory/70">
+        Profesjonalne sprzątanie mieszkań, domów i biur oraz mycie okien.
+        Indywidualne podejście, własny sprzęt, uczciwa wycena.
+      </p>
+      <p class="mt-4 text-sm font-semibold">{site.areaLabel}</p>
+    </div>
+
+    <div>
+      <h2 class="mb-4 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ivory/50">
+        Usługi
+      </h2>
+      <ul class="space-y-2.5 text-sm">
+        {
+          services.map((s) => (
+            <li>
+              <a href={`/uslugi/${s.slug}`} class="text-ivory/80 transition-colors hover:text-sand">
+                {s.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="mb-4 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ivory/50">
+        Firma
+      </h2>
+      <ul class="space-y-2.5 text-sm">
+        <li><a href="/o-nas" class="text-ivory/80 hover:text-sand">O nas</a></li>
+        <li><a href="/opinie" class="text-ivory/80 hover:text-sand">Opinie</a></li>
+        <li><a href="/wycena" class="text-ivory/80 hover:text-sand">Bezpłatna wycena</a></li>
+        <li><a href="/faq" class="text-ivory/80 hover:text-sand">Częste pytania</a></li>
+        <li><a href="/kontakt" class="text-ivory/80 hover:text-sand">Kontakt</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="mb-4 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ivory/50">
+        Kontakt
+      </h2>
+      <ul class="space-y-2.5 text-sm text-ivory/80">
+        <li>
+          <a href={`tel:${site.phone}`} class="font-semibold text-ivory hover:text-sand">
+            {site.phoneDisplay}
+          </a>
+        </li>
+        <li><a href={`mailto:${site.email}`} class="hover:text-sand">{site.email}</a></li>
+        <li class="pt-2">
+          {site.address.street}<br />
+          {site.address.postalCode} {site.address.city}
+        </li>
+        <li class="pt-2">{site.hours}</li>
+        <li class="pt-2">
+          <a href={site.fixly} target="_blank" rel="noopener noreferrer" class="hover:text-sand">
+            Profil na Fixly — ★ {site.proof.rating.toFixed(1)}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-ivory/15">
+    <div class="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-xs text-ivory/50 sm:flex-row sm:items-center sm:justify-between">
+      <p>© {new Date().getFullYear()} {site.legalName} · NIP {site.nip}</p>
+      <p>Podane informacje nie stanowią oferty w rozumieniu Kodeksu cywilnego.</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,41 @@
+---
+import { reviews } from '@/data/reviews';
+import { site } from '@/data/site';
+
+interface Props { limit?: number }
+const { limit } = Astro.props;
+const shown = limit ? reviews.slice(0, limit) : reviews;
+---
+
+<div class="grid gap-5 sm:grid-cols-2">
+  {
+    shown.map((r) => (
+      <figure class="card flex flex-col p-7">
+        <div class="flex items-center gap-1 text-sand" aria-label={`Ocena ${r.rating} na 5`}>
+          {Array.from({ length: r.rating }).map(() => (
+            <span aria-hidden="true">★</span>
+          ))}
+        </div>
+        <blockquote class="mt-4 flex-1 font-display text-xl leading-snug text-forest">
+          „{r.text}”
+        </blockquote>
+        <figcaption class="mt-6 text-sm text-ink-soft">
+          <span class="font-semibold text-ink">{r.author}</span>, {r.city}
+          <span class="mt-1 block text-ink-mute">
+            {r.service} · {r.dateLabel} · {r.source}
+          </span>
+        </figcaption>
+      </figure>
+    ))
+  }
+</div>
+
+<p class="mt-6 text-sm text-ink-soft">
+  Wszystkie opinie pochodzą z
+  <a
+    href={site.fixly}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="text-forest underline underline-offset-4">zweryfikowanego profilu na Fixly</a
+  > — nie publikujemy niczego, czego nie da się sprawdzić u źródła.
+</p>

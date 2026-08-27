@@ -1,0 +1,111 @@
+---
+import '@/styles/global.css';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import StickyBar from '@/components/StickyBar.astro';
+import { site } from '@/data/site';
+import { reviews } from '@/data/reviews';
+
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  path = Astro.url.pathname,
+  noindex: noindexProp = false,
+} = Astro.props;
+
+const isPreview = import.meta.env.PUBLIC_PREVIEW === '1';
+const noindex = noindexProp || isPreview;
+
+const canonical = new URL(path, site.domain).href;
+const fullTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
+
+const localBusiness = {
+  '@context': 'https://schema.org',
+  '@type': 'HouseCleaningService',
+  name: site.legalName,
+  alternateName: site.name,
+  founder: { '@type': 'Person', name: site.owner },
+  url: site.domain,
+  telephone: site.phone,
+  email: site.email,
+  taxID: site.nip,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    postalCode: site.address.postalCode,
+    addressLocality: site.address.city,
+    addressRegion: site.address.region,
+    addressCountry: site.address.country,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: site.geo.lat,
+    longitude: site.geo.lng,
+  },
+  areaServed: site.areaServed.map((n) => ({ '@type': 'Place', name: n })),
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: site.proof.rating,
+    reviewCount: site.proof.reviewsCount,
+    bestRating: 5,
+  },
+  review: reviews.map((r) => ({
+    '@type': 'Review',
+    author: { '@type': 'Person', name: r.author },
+    datePublished: r.date,
+    reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5 },
+    reviewBody: r.text,
+  })),
+  sameAs: [site.fixly, site.panoramaFirm],
+};
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="pl_PL" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#1c4520" />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(localBusiness)}
+      is:inline
+    />
+  </head>
+
+  <body class="min-h-screen">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-forest focus:px-5 focus:py-3 focus:text-ivory"
+    >
+      Przejdź do treści
+    </a>
+
+    <Header />
+    <main id="main" class="pb-20 md:pb-0"><slot /></main>
+    <Footer />
+    <StickyBar />
+  </body>
+</html>

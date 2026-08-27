@@ -1,0 +1,44 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  align?: 'left' | 'center';
+  size?: 'lg' | 'md';
+  invert?: boolean;
+}
+const {
+  eyebrow,
+  title,
+  lead,
+  align = 'left',
+  size = 'lg',
+  invert = false,
+} = Astro.props;
+---
+
+<header class={align === 'center' ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl'}>
+  {
+    eyebrow && (
+      <p class:list={['eyebrow', align === 'left' && 'hairline', invert && '!text-ivory/60']}>
+        {eyebrow}
+      </p>
+    )
+  }
+  <h2
+    class:list={[
+      'mt-4 font-display',
+      size === 'lg' ? 'display-lg' : 'display-md',
+      invert ? 'text-ivory' : 'text-forest',
+    ]}
+  >
+    {title}
+  </h2>
+  {
+    lead && (
+      <p class:list={['mt-5 text-lg leading-relaxed', invert ? 'text-ivory/75' : 'text-ink-soft']}>
+        {lead}
+      </p>
+    )
+  }
+</header>

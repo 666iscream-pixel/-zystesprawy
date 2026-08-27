@@ -1,0 +1,38 @@
+---
+import { site, waLink, waDefaultMessage } from '@/data/site';
+
+interface Props {
+  title?: string;
+  lead?: string;
+}
+const {
+  title = 'Zacznijmy od bezpłatnej wyceny',
+  lead = 'Napisz, co trzeba posprzątać — odeślemy konkretną cenę przed rozpoczęciem pracy. Bez zobowiązań.',
+} = Astro.props;
+---
+
+<section class="mx-auto max-w-6xl px-5">
+  <div class="rounded border border-forest/15 bg-forest px-6 py-14 text-center text-ivory sm:px-12">
+    <h2 class="display-lg mx-auto max-w-xl font-display">{title}</h2>
+    <p class="mx-auto mt-5 max-w-xl text-ivory/75">{lead}</p>
+
+    <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+      <a href="/wycena" class="btn btn-light w-full sm:w-auto">Wypełnij formularz</a>
+      <a
+        href={waLink(waDefaultMessage)}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-ghost w-full !border-ivory/40 !text-ivory hover:!bg-ivory hover:!text-forest sm:w-auto"
+      >
+        Napisz na WhatsApp
+      </a>
+    </div>
+
+    <p class="mt-7 text-sm text-ivory/60">
+      Albo po prostu zadzwoń:
+      <a href={`tel:${site.phone}`} class="font-semibold text-ivory hover:text-sand">
+        {site.phoneDisplay}
+      </a>
+    </p>
+  </div>
+</section>
