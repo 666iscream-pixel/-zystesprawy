@@ -5,28 +5,15 @@ import Faq from '@/components/Faq.astro';
 import Cta from '@/components/Cta.astro';
 import Check from '@/components/Check.astro';
 import Icon from '@/components/Icon.astro';
-import { services, usp, alwaysIncluded } from '@/data/services';
+import RingMotif from '@/components/RingMotif.astro';
+import { services, alwaysIncluded } from '@/data/services';
 import { faq } from '@/data/faq';
-import { site, waLink, waDefaultMessage } from '@/data/site';
+import { site } from '@/data/site';
 
-const steps = [
-  {
-    title: 'Zgłoszenie',
-    body: 'Piszesz, co trzeba posprzątać: rodzaj usługi, metraż, preferowany termin.',
-  },
-  {
-    title: 'Bezpłatna wycena',
-    body: 'Na podstawie opisu i kilku zdjęć podajemy konkretną cenę — jeszcze przed rozpoczęciem pracy.',
-  },
-  {
-    title: 'Sprzątanie',
-    body: 'Przyjeżdżamy z własnym sprzętem i środkami, w ustalonym terminie.',
-  },
-  {
-    title: 'Odbiór',
-    body: 'Sprawdzamy efekt przed wyjściem. Jeśli coś wymaga poprawy — poprawiamy od razu.',
-  },
-];
+/**
+ * "Dlaczego my" (USP) i "Jak pracujemy" (4 kroki) przeniesione na /o-nas —
+ * strona główna ma być krótsza i skupiona na usługach i konwersji.
+ */
 ---
 
 <BaseLayout
@@ -34,9 +21,10 @@ const steps = [
   description="Czyste Sprawy — sprzątanie mieszkań, domów i biur, po remoncie, po wynajmie oraz mycie okien w Poznaniu i okolicach. Ubezpieczenie OC, bezpłatna wycena."
   path="/"
 >
-  <!-- ══ HERO ══ pojedyncza kolumna — bez dużego bloku statystyk ══ -->
-  <section class="border-b border-ivory-line">
-    <div class="mx-auto max-w-3xl px-5 pb-16 pt-16 text-center lg:pb-20 lg:pt-24">
+  <!-- ══ HERO ══ pojedyncza kolumna, cichy pierścień w tle ══ -->
+  <section class="relative overflow-hidden border-b border-ivory-line">
+    <RingMotif position="right" />
+    <div class="relative mx-auto max-w-3xl px-5 pb-16 pt-16 text-center lg:pb-20 lg:pt-24">
       <p class="eyebrow mx-auto">{site.tagline}</p>
 
       <h1 class="display-xl mt-6 font-display text-forest">
@@ -67,16 +55,16 @@ const steps = [
     </div>
   </section>
 
-  <!-- ══ PASEK ZAUFANIA ══ cienki, ciemna zieleń tylko jako akcent ══ -->
-  <section class="bg-forest text-ivory">
-    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-10 gap-y-3 px-5 py-4 text-sm">
-      <span class="flex items-center gap-2 font-semibold">
-        <Icon name="insurance" class="h-4 w-4 text-sand" />
+  <!-- ══ PASEK ZAUFANIA ══ jasny, zielony tylko w ikonie i tekście ══ -->
+  <section class="border-b border-ivory-line bg-ivory-warm">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-10 gap-y-3 px-5 py-4 text-sm text-ink-soft">
+      <span class="flex items-center gap-2 font-semibold text-forest">
+        <Icon name="insurance" class="h-4 w-4" />
         {site.insurance.label}
       </span>
-      <span class="hidden text-ivory/40 sm:inline">·</span>
+      <span class="hidden text-ivory-line sm:inline">·</span>
       <span class="font-semibold">{site.areaLabel}</span>
-      <span class="hidden text-ivory/40 sm:inline">·</span>
+      <span class="hidden text-ivory-line sm:inline">·</span>
       <span class="font-semibold">Dane zweryfikowane w GUS</span>
     </div>
   </section>
@@ -113,41 +101,6 @@ const steps = [
         ))
       }
     </div>
-  </section>
-
-  <!-- ══ DLACZEGO MY ══ ikony na jasnej szałwii, konkretne hasła ══ -->
-  <section class="bg-ivory-warm py-24">
-    <div class="mx-auto max-w-6xl px-5">
-      <SectionHeading eyebrow="Dlaczego my" title="Osiem powodów, żeby zaufać" align="center" />
-      <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {
-          usp.map((u) => (
-            <div class="card-sage flex flex-col items-center gap-3 p-6 text-center">
-              <Icon name={u.icon} class="h-7 w-7" />
-              <p class="font-semibold leading-snug">{u.title}</p>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ JAK PRACUJEMY ══ jasne tło, żeby nie mnożyć ciemnych bloków ══ -->
-  <section class="mx-auto max-w-6xl px-5 py-24">
-    <SectionHeading eyebrow="Jak pracujemy" title="Cztery kroki, zero niejasności" />
-    <ol class="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-      {
-        steps.map((s, i) => (
-          <li class="rule pt-6">
-            <span class="font-display text-sm text-sand">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <h3 class="mt-3 font-display text-xl text-forest">{s.title}</h3>
-            <p class="mt-2.5 leading-relaxed text-ink-soft">{s.body}</p>
-          </li>
-        ))
-      }
-    </ol>
   </section>
 
   <!-- ══ OBSZAR ══ -->

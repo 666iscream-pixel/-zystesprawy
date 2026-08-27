@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Icon from '@/components/Icon.astro';
+import Cross from '@/components/Cross.astro';
 import Cta from '@/components/Cta.astro';
 import { services, exclusions } from '@/data/services';
 ---
@@ -52,7 +53,7 @@ import { services, exclusions } from '@/data/services';
         {
           exclusions.map((e) => (
             <li class="flex items-start gap-3 rounded border border-ivory-line bg-white px-4 py-3 text-sm text-ink-soft">
-              <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sand" aria-hidden="true" />
+              <Cross class="mt-0.5" />
               {e}
             </li>
           ))

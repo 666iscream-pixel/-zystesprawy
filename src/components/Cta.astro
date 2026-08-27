@@ -12,25 +12,25 @@ const {
 ---
 
 <section class="mx-auto max-w-6xl px-5">
-  <div class="rounded border border-forest/15 bg-forest px-6 py-14 text-center text-ivory sm:px-12">
-    <h2 class="display-lg mx-auto max-w-xl font-display">{title}</h2>
-    <p class="mx-auto mt-5 max-w-xl text-ivory/75">{lead}</p>
+  <div class="rounded border-2 border-forest/20 bg-ivory-warm px-6 py-14 text-center sm:px-12">
+    <h2 class="display-lg mx-auto max-w-xl font-display text-forest">{title}</h2>
+    <p class="mx-auto mt-5 max-w-xl text-ink-soft">{lead}</p>
 
     <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-      <a href="/wycena" class="btn btn-light w-full sm:w-auto">Wypełnij formularz</a>
+      <a href="/wycena" class="btn btn-primary w-full sm:w-auto">Wypełnij formularz</a>
       <a
         href={waLink(waDefaultMessage)}
         target="_blank"
         rel="noopener noreferrer"
-        class="btn btn-ghost w-full !border-ivory/40 !text-ivory hover:!bg-ivory hover:!text-forest sm:w-auto"
+        class="btn btn-ghost w-full sm:w-auto"
       >
         Napisz na WhatsApp
       </a>
     </div>
 
-    <p class="mt-7 text-sm text-ivory/60">
+    <p class="mt-7 text-sm text-ink-mute">
       Albo po prostu zadzwoń:
-      <a href={`tel:${site.phone}`} class="font-semibold text-ivory hover:text-sand">
+      <a href={`tel:${site.phone}`} class="font-semibold text-forest hover:text-forest-deep">
         {site.phoneDisplay}
       </a>
     </p>

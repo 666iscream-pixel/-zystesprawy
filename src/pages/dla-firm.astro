@@ -90,16 +90,16 @@ import { site, waLink } from '@/data/site';
     </p>
   </section>
 
-  <section class="bg-forest py-20 text-ivory">
+  <section class="bg-ivory-warm py-20">
     <div class="mx-auto max-w-6xl px-5">
-      <SectionHeading eyebrow="Jak zaczynamy" title="Cztery kroki" invert />
+      <SectionHeading eyebrow="Jak zaczynamy" title="Cztery kroki" />
       <ol class="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
         {
           officeSteps.map((s, i) => (
-            <li class="border-t border-ivory/20 pt-6">
+            <li class="rule pt-6">
               <span class="font-display text-sm text-sand">{String(i + 1).padStart(2, '0')}</span>
-              <h3 class="mt-3 font-display text-xl">{s.title}</h3>
-              <p class="mt-2 leading-relaxed text-ivory/70">{s.body}</p>
+              <h3 class="mt-3 font-display text-xl text-forest">{s.title}</h3>
+              <p class="mt-2 leading-relaxed text-ink-soft">{s.body}</p>
             </li>
           ))
         }
