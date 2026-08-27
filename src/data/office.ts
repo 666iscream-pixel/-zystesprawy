@@ -10,7 +10,7 @@
 export const officeIntro = {
   eyebrow: 'Dla firm',
   title: 'Stały porządek bez pilnowania',
-  lead: 'Regularne sprzątanie biur, gabinetów i lokali usługowych w Poznaniu i okolicy — rano lub wieczorem, bez zakłócania pracy zespołu.',
+  lead: 'Regularne sprzątanie biur, budynków biurowych oraz obiektów produkcyjnych i przemysłowych w Poznaniu i okolicy — rano lub wieczorem, bez zakłócania pracy zespołu.',
 };
 
 export const officePackages = [

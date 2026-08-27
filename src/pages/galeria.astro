@@ -1,22 +1,61 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import EmptySection from '@/components/EmptySection.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Cta from '@/components/Cta.astro';
+import { gallery } from '@/data/gallery';
 ---
 
 <BaseLayout
-  title="Galeria"
-  description="Galeria realizacji Czyste Sprawy — zdjęcia przed i po sprzątaniu w Poznaniu. Sekcja w przygotowaniu."
+  title="Galeria — przed i po"
+  description="Prawdziwe zdjęcia przed i po sprzątaniu: bateria łazienkowa, kabina prysznicowa. Czyste Sprawy, Poznań."
   path="/galeria"
-  noindex
 >
-  <EmptySection
-    title="Galeria"
-    lead="Ta sekcja jest w przygotowaniu. Znajdą się tu prawdziwe zdjęcia naszych realizacji — bez zdjęć stockowych."
-    soon={[
-      'Zdjęcia przed / po ze sprzątania mieszkań i domów',
-      'Sprzątanie po remoncie — pył budowlany, farba, klej',
-      'Mycie okien — przed i po',
-      'Realizacje biurowe',
-    ]}
-  />
+  <section class="mx-auto max-w-6xl px-5 pb-10 pt-16">
+    <SectionHeading
+      eyebrow="Galeria"
+      title="Przed i po"
+      lead="Wyłącznie nasze zdjęcia z prawdziwych zleceń. Galeria dopiero się zapełnia — dokładamy kolejne realizacje na bieżąco."
+    />
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 pb-16">
+    <div class="grid gap-6 sm:grid-cols-2">
+      {
+        gallery.map((item) => (
+          <figure class="overflow-hidden rounded border border-ivory-line bg-white">
+            <img
+              src={item.src}
+              alt={item.alt}
+              loading="lazy"
+              decoding="async"
+              width={378}
+              height={559}
+              class="w-full"
+            />
+            <figcaption class="px-5 py-4 text-sm text-ink-soft">{item.caption}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+
+    <div class="mt-10 rounded border border-dashed border-forest/25 bg-ivory-warm p-6">
+      <p class="eyebrow">Wkrótce dołączymy</p>
+      <ul class="mt-3 space-y-2 text-sm text-ink-soft">
+        <li class="flex gap-2.5">
+          <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sand" />
+          Sprzątanie mieszkań i domów — pełne realizacje
+        </li>
+        <li class="flex gap-2.5">
+          <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sand" />
+          Sprzątanie po remoncie
+        </li>
+        <li class="flex gap-2.5">
+          <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sand" />
+          Realizacje biurowe i przemysłowe
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="pb-24"><Cta /></div>
 </BaseLayout>

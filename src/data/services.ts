@@ -151,9 +151,9 @@ export const services: Service[] = [
     slug: 'sprzatanie-biur',
     name: 'Sprzątanie biur, firm i instytucji',
     short: 'Biura i firmy',
-    lead: 'Regularna obsługa biur, gabinetów i lokali usługowych — rano lub wieczorem, bez zakłócania pracy zespołu.',
+    lead: 'Regularna obsługa biur, budynków biurowych i obiektów produkcyjnych — rano lub wieczorem, bez zakłócania pracy zespołu.',
     forWhom:
-      'Małe i średnie biura, gabinety, salony, lokale usługowe i instytucje, które potrzebują stałego, przewidywalnego standardu czystości.',
+      'Małe i średnie biura, gabinety, salony, lokale usługowe, instytucje oraz obiekty produkcyjne i przemysłowe, które potrzebują stałego, przewidywalnego standardu czystości.',
     icon: 'office',
     order: 4,
     groups: [
@@ -183,9 +183,18 @@ export const services: Service[] = [
           'Utrzymanie porządku w recepcji i korytarzach',
         ],
       },
+      {
+        title: 'Posadzki i obiekty produkcyjne',
+        items: [
+          'Czyszczenie posadzek biurowych i przemysłowych',
+          'Sprzątanie hal i obiektów produkcyjnych',
+          'Mycie elewacji szklanych i przeszkleń wielkopowierzchniowych',
+        ],
+      },
     ],
     notes: [
       'Zakres i częstotliwość ustalamy po bezpłatnej wizycie w obiekcie — pakiety abonamentowe: patrz oferta dla firm.',
+      'Obiekty produkcyjne i przemysłowe wyceniamy indywidualnie — zakres zależy od rodzaju posadzki i powierzchni.',
       'Pracujemy poza godzinami pracy biura, jeśli tak jest wygodniej.',
       'Rozliczenie na fakturę, w cyklu miesięcznym.',
     ],

@@ -1,0 +1,78 @@
+---
+/**
+ * Ciche motywy dekoracyjne nawiązujące do sprzątania: mop z wiadrem, gąbka
+ * z bąbelkami, iskra połysku, okno. Ten sam język co RingMotif — bardzo
+ * przygaszony kontur, żadnych wypełnień, żadnego "clipartu". Zadaniem jest
+ * przełamać płaskość dużych jasnych sekcji, nie ozdabiać je.
+ *
+ * Używać oszczędnie (1 motyw na sekcję, kilka na całą stronę) i zawsze
+ * w kontenerze z `relative overflow-hidden`.
+ */
+type Motif = 'mop' | 'sponge' | 'sparkle' | 'window';
+
+interface Props {
+  icon: Motif;
+  position?: 'tl' | 'tr' | 'bl' | 'br';
+  size?: 'md' | 'lg';
+  class?: string;
+}
+const { icon, position = 'br', size = 'lg', class: klass = '' } = Astro.props;
+
+const sizes = { md: 'h-56 w-56 sm:h-64 sm:w-64', lg: 'h-72 w-72 sm:h-96 sm:w-96' };
+const positions = {
+  tl: '-left-10 -top-10 sm:-left-16 sm:-top-16',
+  tr: '-right-10 -top-10 sm:-right-16 sm:-top-16',
+  bl: '-left-10 -bottom-10 sm:-left-16 sm:-bottom-16',
+  br: '-right-10 -bottom-10 sm:-right-16 sm:-bottom-16',
+};
+---
+
+<svg
+  viewBox="0 0 200 200"
+  class={`pointer-events-none absolute -z-10 text-forest opacity-[0.05] ${sizes[size]} ${positions[position]} ${klass}`}
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2.2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  {
+    icon === 'mop' && (
+      <>
+        <path d="M118 22 L74 130" />
+        <path d="M60 130h56l6 14H54Z" />
+        <path d="M64 130c-2-14 6-24 6-24M76 130c-1-16 4-27 4-27M88 130c0-17-3-29-3-29M100 130c2-16 8-27 8-27M112 130c4-14 12-23 12-23" />
+      </>
+    )
+  }
+  {
+    icon === 'sponge' && (
+      <>
+        <rect x="46" y="90" width="108" height="54" rx="14" />
+        <path d="M64 90c4-10 2-18-4-24M92 90c3-12 0-20-6-26M120 90c4-11 1-19-5-25M142 90c3-10 1-17-4-23" />
+        <circle cx="70" cy="118" r="3" />
+        <circle cx="100" cy="112" r="3" />
+        <circle cx="130" cy="120" r="3" />
+      </>
+    )
+  }
+  {
+    icon === 'sparkle' && (
+      <>
+        <path d="M100 30l10 34 34 10-34 10-10 34-10-34-34-10 34-10Z" />
+        <path d="M158 128l5 16 16 5-16 5-5 16-5-16-16-5 16-5Z" />
+        <path d="M46 138l4 12 12 4-12 4-4 12-4-12-12-4 12-4Z" />
+      </>
+    )
+  }
+  {
+    icon === 'window' && (
+      <>
+        <rect x="40" y="34" width="120" height="132" rx="4" />
+        <path d="M100 34v132M40 100h120" />
+        <path d="M52 46l24 24M52 154l24-24M148 46l-24 24M148 154l-24-24" opacity="0.5" />
+      </>
+    )
+  }
+</svg>

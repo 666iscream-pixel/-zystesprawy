@@ -6,6 +6,7 @@ import Cta from '@/components/Cta.astro';
 import Check from '@/components/Check.astro';
 import Icon from '@/components/Icon.astro';
 import RingMotif from '@/components/RingMotif.astro';
+import CleaningMotif from '@/components/CleaningMotif.astro';
 import { services, alwaysIncluded } from '@/data/services';
 import { faq } from '@/data/faq';
 import { site } from '@/data/site';
@@ -24,6 +25,7 @@ import { site } from '@/data/site';
   <!-- ══ HERO ══ pojedyncza kolumna, cichy pierścień w tle ══ -->
   <section class="relative overflow-hidden border-b border-ivory-line">
     <RingMotif position="right" />
+    <CleaningMotif icon="mop" position="bl" size="md" />
     <div class="relative mx-auto max-w-3xl px-5 pb-16 pt-16 text-center lg:pb-20 lg:pt-24">
       <p class="eyebrow mx-auto">{site.tagline}</p>
 
@@ -56,7 +58,9 @@ import { site } from '@/data/site';
   </section>
 
   <!-- ══ USŁUGI ══ karty z obwódką ══ -->
-  <section class="mx-auto max-w-6xl px-5 py-24">
+  <section class="relative overflow-hidden py-24">
+    <CleaningMotif icon="sponge" position="bl" size="md" />
+    <div class="relative mx-auto max-w-6xl px-5">
     <div class="flex flex-wrap items-end justify-between gap-6">
       <SectionHeading
         eyebrow="Usługi"
@@ -87,11 +91,13 @@ import { site } from '@/data/site';
         ))
       }
     </div>
+    </div>
   </section>
 
   <!-- ══ OBSZAR ══ -->
-  <section class="bg-ivory-warm py-24">
-    <div class="mx-auto max-w-6xl px-5">
+  <section class="relative overflow-hidden bg-ivory-warm py-24">
+    <CleaningMotif icon="window" position="tr" size="md" />
+    <div class="relative mx-auto max-w-6xl px-5">
       <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <SectionHeading
           eyebrow="Obszar działania"
@@ -110,14 +116,17 @@ import { site } from '@/data/site';
   </section>
 
   <!-- ══ FAQ ══ -->
-  <section class="mx-auto max-w-3xl px-5 py-24">
-    <SectionHeading eyebrow="FAQ" title="Częste pytania" align="center" />
-    <div class="mt-12"><Faq items={faq.slice(0, 5)} schema /></div>
-    <p class="mt-8 text-center">
-      <a href="/faq" class="text-forest underline underline-offset-4">
-        Zobacz wszystkie pytania
-      </a>
-    </p>
+  <section class="relative overflow-hidden py-24">
+    <CleaningMotif icon="sparkle" position="tl" size="md" />
+    <div class="relative mx-auto max-w-3xl px-5">
+      <SectionHeading eyebrow="FAQ" title="Częste pytania" align="center" />
+      <div class="mt-12"><Faq items={faq.slice(0, 5)} schema /></div>
+      <p class="mt-8 text-center">
+        <a href="/faq" class="text-forest underline underline-offset-4">
+          Zobacz wszystkie pytania
+        </a>
+      </p>
+    </div>
   </section>
 
   <div class="py-24"><Cta /></div>
