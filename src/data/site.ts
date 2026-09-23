@@ -14,10 +14,10 @@ export const site = {
   city: 'Poznań',
 
   // --- Kontakt ------------------------------------------------------------
-  // TODO: numer nie jest podany publicznie ani na Fixly, ani w Panoramie Firm.
-  phone: '+48000000000',
-  phoneDisplay: '+48 000 000 000',
-  whatsapp: '48000000000',
+  // Format międzynarodowy bez spacji dla linków.
+  phone: '+48880384930',
+  phoneDisplay: '+48 880 384 930',
+  whatsapp: '48880384930',
   email: 'kontakt@czystesprawy.pl', // TODO
 
   // --- Adres (Panorama Firm) ---------------------------------------------

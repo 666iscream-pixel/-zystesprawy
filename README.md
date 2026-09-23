@@ -118,7 +118,7 @@ budujący wiadomość do wysłania).
 | Co | Gdzie | Status |
 | --- | --- | --- |
 | **Ceny w `pricing.ts` i `addons.ts`** | patrz sekcja wyżej | referencyjne/orientacyjne, nie potwierdzone |
-| **Numer telefonu** | `src/data/site.ts` | placeholder `+48 000 000 000` |
+| **Numer telefonu** | `src/data/site.ts` | `+48 880 384 930` |
 | **E-mail** | `src/data/site.ts` | placeholder |
 | **Godziny pracy** | `src/data/site.ts` | wpisane „Pn–Sb 8:00–20:00” — zgadza się? |
 | **REGON** | `src/data/site.ts` | puste |
