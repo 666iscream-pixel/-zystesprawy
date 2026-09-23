@@ -1,0 +1,62 @@
+name: Deploy preview to GitHub Pages
+
+# Podgląd dla klienta. Docelowy serwis pójdzie na własną domenę —
+# ten workflow buduje wersję z prefiksem ścieżki i z noindex,
+# żeby kopia na github.io nigdy nie trafiła do wyszukiwarki.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Strona projektu żyje pod /<repo>/, więc prefiks bierzemy z nazwy repo.
+      - name: Ustal prefiks ścieżki
+        run: echo "BASE_PATH=/${GITHUB_REPOSITORY#*/}" >> "$GITHUB_ENV"
+
+      # BASE_PATH musi być obecny JUŻ przy buildzie: Astro dokłada prefiks do
+      # zasobów `_astro/` przed policzeniem haszy nazw plików.
+      - name: Build
+        env:
+          PUBLIC_PREVIEW: '1'
+        run: npm run build
+
+      # Skrypt poprawia tylko linki wpisane na sztywno i pliki z `public/`.
+      - name: Prefiksuj linki
+        run: node scripts/prefix-base.mjs
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
